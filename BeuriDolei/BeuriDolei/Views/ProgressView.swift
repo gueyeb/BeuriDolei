@@ -154,6 +154,7 @@ struct SessionDetailSheet: View {
             List {
                 Section("Jour \(session.dayIndex + 1)") {
                     LabeledContent("Date", value: session.endedAt.formatted(date: .abbreviated, time: .shortened))
+                    LabeledContent("Variante", value: session.variant.title)
                     LabeledContent("Durée séance", value: timeString(Int(session.duration)))
                     LabeledContent("Temps total tenu", value: timeString(session.totalCompleted))
                 }

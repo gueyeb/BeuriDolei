@@ -2,10 +2,17 @@ import Foundation
 
 struct ChallengeDay {
     let dayIndex: Int
+    let variant: PlankVariant
     let series: [Int]  // seconds per serie, e.g. [60, 45, 30]
 
     var totalDuration: Int { series.reduce(0, +) }
     var seriesCount: Int { series.count }
+
+    init(dayIndex: Int, variant: PlankVariant = .classic, series: [Int]) {
+        self.dayIndex = dayIndex
+        self.variant = variant
+        self.series = series
+    }
 }
 
 // MARK: - 30-day programme

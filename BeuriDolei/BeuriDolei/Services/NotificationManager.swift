@@ -7,9 +7,21 @@ final class NotificationManager {
     private let dailyId = "bd.daily"
     private let congratsId = "bd.congrats"
 
-    func requestPermission() {
+    func requestPermission(completion: ((Bool) -> Void)? = nil) {
         UNUserNotificationCenter.current()
-            .requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }
+            .requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
+                DispatchQueue.main.async {
+                    completion?(granted)
+                }
+            }
+    }
+
+    func notificationSettings(completion: @escaping (UNAuthorizationStatus) -> Void) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            DispatchQueue.main.async {
+                completion(settings.authorizationStatus)
+            }
+        }
     }
 
     func scheduleDailyReminder(at time: Date, dayIndex: Int) {

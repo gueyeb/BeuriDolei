@@ -12,6 +12,7 @@
 		5ED6D908F4C5427FAB0A9F58 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22360DC803A04FA3B9E0473D /* ContentView.swift */; };
 		F011FE3500F64EB4B4DF8B84 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 497B7FEBE05E41A7ACB89DB8 /* Preview Assets.xcassets */; };
 		E88D7B7C7DD74A439C622BBD /* ChallengeDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC87BB60894A38BA52A803 /* ChallengeDay.swift */; };
+		8A4E5F7C31AA4A4C9E123456 /* PlankVariant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4E5F7C31AA4A4C9E123455 /* PlankVariant.swift */; };
 		33AE898EB2814D9F9EC539F4 /* PlankSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840A7C295A444944A703E53C /* PlankSession.swift */; };
 		0861CCCF8F4D4C3384E6981C /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6B8B188B9741FCB868840F /* UserPreferences.swift */; };
 		DFA35993BA6E42008D0EB082 /* ChallengeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADF288084064C73AB227455 /* ChallengeStore.swift */; };
@@ -32,6 +33,7 @@
 		497B7FEBE05E41A7ACB89DB8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B7575EC181F04897926AE716 /* BeuriDoleiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeuriDoleiApp.swift; sourceTree = "<group>"; };
 		32DC87BB60894A38BA52A803 /* ChallengeDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDay.swift; sourceTree = "<group>"; };
+		8A4E5F7C31AA4A4C9E123455 /* PlankVariant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlankVariant.swift; sourceTree = "<group>"; };
 		840A7C295A444944A703E53C /* PlankSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlankSession.swift; sourceTree = "<group>"; };
 		5A6B8B188B9741FCB868840F /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
 		6ADF288084064C73AB227455 /* ChallengeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStore.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				32DC87BB60894A38BA52A803 /* ChallengeDay.swift */,
+				8A4E5F7C31AA4A4C9E123455 /* PlankVariant.swift */,
 				840A7C295A444944A703E53C /* PlankSession.swift */,
 				5A6B8B188B9741FCB868840F /* UserPreferences.swift */,
 			);
@@ -208,6 +211,7 @@
 				5ED6D908F4C5427FAB0A9F58 /* ContentView.swift in Sources */,
 				2FEDF40156804FC0B1AF7CBE /* BeuriDoleiApp.swift in Sources */,
 				E88D7B7C7DD74A439C622BBD /* ChallengeDay.swift in Sources */,
+				8A4E5F7C31AA4A4C9E123456 /* PlankVariant.swift in Sources */,
 				33AE898EB2814D9F9EC539F4 /* PlankSession.swift in Sources */,
 				0861CCCF8F4D4C3384E6981C /* UserPreferences.swift in Sources */,
 				DFA35993BA6E42008D0EB082 /* ChallengeStore.swift in Sources */,

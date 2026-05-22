@@ -8,6 +8,7 @@ struct HomeView: View {
 
     private var day: ChallengeDay { store.currentDay }
     private var nextDay: ChallengeDay? { store.nextDay }
+    private var selectedVariant: PlankVariant { store.preferences.preferredVariant }
     private var progress: Double {
         Double(store.currentDayIndex + (store.isTodayCompleted ? 1 : 0)) / Double(ChallengeDay.totalDays)
     }
@@ -29,13 +30,15 @@ struct HomeView: View {
                     Spacer()
                     objectiveCard
                         .padding(.bottom, 20)
+                    variantSelector
+                        .padding(.bottom, 20)
                     seriesCard
                     actionButton
                         .padding(.bottom, 48)
                 }
             }
             .navigationDestination(isPresented: $navigateToTimer) {
-                TimerView(day: day)
+                TimerView(day: day, variant: selectedVariant)
             }
             .navigationDestination(isPresented: $navigateToProgress) {
                 ChallengeProgressView()
@@ -132,11 +135,42 @@ struct HomeView: View {
             Text(day.series.map(formatted).joined(separator: " · "))
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(.white.opacity(0.72))
+            Label(selectedVariant.title, systemImage: selectedVariant.systemImage)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.orange)
         }
         .padding(.vertical, 20)
         .frame(maxWidth: .infinity)
         .background(.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 22))
         .padding(.horizontal, 24)
+    }
+
+    private var variantSelector: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+                ForEach(PlankVariant.allCases) { variant in
+                    Button {
+                        store.preferences.preferredVariant = variant
+                        store.savePreferences()
+                    } label: {
+                        VStack(spacing: 6) {
+                            Image(systemName: variant.systemImage)
+                                .font(.subheadline.weight(.bold))
+                            Text(variant.shortTitle)
+                                .font(.caption.weight(.semibold))
+                        }
+                        .foregroundStyle(selectedVariant == variant ? Color.black : Color.white)
+                        .frame(width: 82, height: 62)
+                        .background(
+                            selectedVariant == variant ? Color.orange : Color.white.opacity(0.08),
+                            in: RoundedRectangle(cornerRadius: 16)
+                        )
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(.horizontal, 24)
+        }
     }
 
     // MARK: - Series card

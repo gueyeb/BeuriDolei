@@ -36,6 +36,10 @@ final class ChallengeStore: ObservableObject {
         ChallengeDay.programme[currentDayIndex]
     }
 
+    var currentVariant: PlankVariant {
+        preferences.preferredVariant
+    }
+
     var isTodayCompleted: Bool {
         todayCompletedSession != nil
     }
@@ -136,6 +140,52 @@ final class ChallengeStore: ObservableObject {
                 at: preferences.reminderTime, dayIndex: reminderDayIndex)
         } else {
             NotificationManager.shared.cancelDailyReminder()
+        }
+    }
+
+    func bootstrapPermissionsIfNeeded() {
+        bootstrapNotificationPermissionIfNeeded()
+        bootstrapHealthKitPermissionIfNeeded()
+    }
+
+    func bootstrapNotificationPermissionIfNeeded() {
+        guard !preferences.hasRequestedNotificationsPermission else {
+            applyNotificationPreferences()
+            return
+        }
+
+        preferences.hasRequestedNotificationsPermission = true
+        save()
+
+        NotificationManager.shared.requestPermission { [weak self] granted in
+            guard let self else { return }
+            if !granted {
+                self.preferences.notificationsEnabled = false
+            }
+            self.applyNotificationPreferences()
+            self.save()
+        }
+    }
+
+    func bootstrapHealthKitPermissionIfNeeded() {
+        guard !preferences.hasRequestedHealthKitPermission else { return }
+
+        preferences.hasRequestedHealthKitPermission = true
+        save()
+
+        HealthKitManager.shared.requestPermission { [weak self] granted in
+            guard let self else { return }
+            self.preferences.healthKitEnabled = granted
+            self.save()
+        }
+    }
+
+    func requestHealthKitPermissionFromSettings() {
+        HealthKitManager.shared.requestPermission { [weak self] granted in
+            guard let self else { return }
+            self.preferences.hasRequestedHealthKitPermission = true
+            self.preferences.healthKitEnabled = granted
+            self.save()
         }
     }
 

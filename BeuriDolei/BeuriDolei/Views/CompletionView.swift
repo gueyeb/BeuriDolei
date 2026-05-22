@@ -54,7 +54,7 @@ struct CompletionView: View {
                     .tracking(2)
                     .foregroundStyle(.yellow)
             } else {
-                Text("Jour \(session.dayIndex + 1) sur \(ChallengeDay.totalDays)")
+                Text("Jour \(session.dayIndex + 1) · \(session.variant.title)")
                     .font(.subheadline.weight(.medium))
                     .foregroundStyle(.white.opacity(0.8))
             }
@@ -181,6 +181,7 @@ struct CompletionView: View {
             session: PlankSession(
                 id: UUID(),
                 dayIndex: 0,
+                variant: .classic,
                 startedAt: Date(),
                 endedAt: Date().addingTimeInterval(90),
                 seriesCompleted: [25, 22, 20],

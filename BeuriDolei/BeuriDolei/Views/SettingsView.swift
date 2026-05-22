@@ -12,10 +12,16 @@ struct SettingsView: View {
                     Toggle("Notifications activées", isOn: $store.preferences.notificationsEnabled)
                         .onChange(of: store.preferences.notificationsEnabled) { _, enabled in
                             if enabled {
-                                NotificationManager.shared.requestPermission()
+                                store.preferences.hasRequestedNotificationsPermission = true
+                                NotificationManager.shared.requestPermission { granted in
+                                    store.preferences.notificationsEnabled = granted
+                                    store.applyNotificationPreferences()
+                                    store.savePreferences()
+                                }
+                            } else {
+                                store.applyNotificationPreferences()
+                                store.savePreferences()
                             }
-                            store.applyNotificationPreferences()
-                            store.savePreferences()
                         }
 
                     if store.preferences.notificationsEnabled {
@@ -39,9 +45,10 @@ struct SettingsView: View {
                     Toggle("Enregistrer dans Santé", isOn: $store.preferences.healthKitEnabled)
                         .onChange(of: store.preferences.healthKitEnabled) { _, enabled in
                             if enabled {
-                                HealthKitManager.shared.requestPermission { _ in }
+                                store.requestHealthKitPermissionFromSettings()
+                            } else {
+                                store.savePreferences()
                             }
-                            store.savePreferences()
                         }
                 } header: {
                     Text("Apple Santé")
