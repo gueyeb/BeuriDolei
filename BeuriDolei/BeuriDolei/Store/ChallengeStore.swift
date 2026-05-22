@@ -77,7 +77,24 @@ final class ChallengeStore: ObservableObject {
         sessions.append(session)
         recalculateStreak()
         save()
+        if preferences.notificationsEnabled {
+            NotificationManager.shared.scheduleCongratsNotification(
+                dayIndex: session.dayIndex, streak: streak)
+            NotificationManager.shared.scheduleDailyReminder(
+                at: preferences.reminderTime, dayIndex: currentDayIndex)
+        }
     }
+
+    func applyNotificationPreferences() {
+        if preferences.notificationsEnabled {
+            NotificationManager.shared.scheduleDailyReminder(
+                at: preferences.reminderTime, dayIndex: currentDayIndex)
+        } else {
+            NotificationManager.shared.cancelDailyReminder()
+        }
+    }
+
+    func savePreferences() { save() }
 
     func resetChallenge() {
         sessions = []

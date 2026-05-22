@@ -4,6 +4,7 @@ struct HomeView: View {
     @EnvironmentObject var store: ChallengeStore
     @State private var navigateToTimer = false
     @State private var navigateToProgress = false
+    @State private var showSettings = false
 
     private var day: ChallengeDay { store.currentDay }
     private var progress: Double {
@@ -31,6 +32,9 @@ struct HomeView: View {
             .navigationDestination(isPresented: $navigateToProgress) {
                 ChallengeProgressView()
             }
+            .sheet(isPresented: $showSettings) {
+                SettingsView()
+            }
         }
     }
 
@@ -43,10 +47,13 @@ struct HomeView: View {
                 .tracking(3)
                 .foregroundStyle(.secondary)
             Spacer()
-            Button {
-                navigateToProgress = true
-            } label: {
+            Button { navigateToProgress = true } label: {
                 Image(systemName: "calendar")
+                    .font(.headline)
+                    .foregroundStyle(.secondary)
+            }
+            Button { showSettings = true } label: {
+                Image(systemName: "gearshape")
                     .font(.headline)
                     .foregroundStyle(.secondary)
             }
