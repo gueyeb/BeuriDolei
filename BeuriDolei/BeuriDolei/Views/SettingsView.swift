@@ -35,6 +35,20 @@ struct SettingsView: View {
                     Text("Un rappel quotidien à l'heure choisie.")
                 }
 
+                Section {
+                    Toggle("Enregistrer dans Santé", isOn: $store.preferences.healthKitEnabled)
+                        .onChange(of: store.preferences.healthKitEnabled) { _, enabled in
+                            if enabled {
+                                HealthKitManager.shared.requestPermission { _ in }
+                            }
+                            store.savePreferences()
+                        }
+                } header: {
+                    Text("Apple Santé")
+                } footer: {
+                    Text("Chaque séance est enregistrée comme entraînement Core Training.")
+                }
+
                 Section("Comportement") {
                     Toggle("Vibrations", isOn: $store.preferences.hapticsEnabled)
                         .onChange(of: store.preferences.hapticsEnabled) { _, _ in

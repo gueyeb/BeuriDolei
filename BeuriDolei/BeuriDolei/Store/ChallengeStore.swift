@@ -24,9 +24,11 @@ final class ChallengeStore: ObservableObject {
     // MARK: - Computed
 
     var currentDayIndex: Int {
-        // Next uncompleted day, capped at last day
-        let completed = Set(sessions.filter(\.isCompleted).map(\.dayIndex))
-        let next = (0..<ChallengeDay.totalDays).first { !completed.contains($0) }
+        if let completedToday = todayCompletedSession?.dayIndex {
+            return completedToday
+        }
+
+        let next = (0..<ChallengeDay.totalDays).first { !completedDayIndexes.contains($0) }
         return next ?? ChallengeDay.totalDays - 1
     }
 
@@ -35,23 +37,20 @@ final class ChallengeStore: ObservableObject {
     }
 
     var isTodayCompleted: Bool {
-        guard let last = sessions.last(where: { $0.dayIndex == currentDayIndex }) else {
-            return false
-        }
-        return last.isCompleted && Calendar.current.isDateInToday(last.endedAt)
+        todayCompletedSession != nil
     }
 
     var isChallengeDone: Bool {
-        let completed = Set(sessions.filter(\.isCompleted).map(\.dayIndex))
-        return completed.count == ChallengeDay.totalDays
+        completedDayIndexes.count == ChallengeDay.totalDays
     }
 
     var bestStreak: Int {
         let calendar = Calendar.current
-        let sortedDates = sessions
+        let sortedDates = Array(Set(sessions
             .filter(\.isCompleted)
             .map { calendar.startOfDay(for: $0.endedAt) }
-            .sorted()
+        ))
+        .sorted()
         guard !sortedDates.isEmpty else { return 0 }
         var best = 1, current = 1
         for i in 1..<sortedDates.count {
@@ -67,8 +66,44 @@ final class ChallengeStore: ObservableObject {
     }
 
     var completionPercentage: Double {
-        let count = Set(sessions.filter(\.isCompleted).map(\.dayIndex)).count
-        return Double(count) / Double(ChallengeDay.totalDays)
+        Double(completedDayIndexes.count) / Double(ChallengeDay.totalDays)
+    }
+
+    var nextDay: ChallengeDay? {
+        let nextIndex = currentDayIndex + 1
+        guard nextIndex < ChallengeDay.totalDays else { return nil }
+        return ChallengeDay.programme[nextIndex]
+    }
+
+    func streakBroken(since date: Date) -> Bool {
+        let calendar = Calendar.current
+        let completedDays = completedCalendarDays
+        let earliestCompletedDay = completedDays.min()
+        let start = calendar.startOfDay(for: date)
+        var reference = calendar.startOfDay(for: Date())
+        var usedGraceWeeks = Set<Date>()
+
+        while reference >= start {
+            if completedDays.contains(reference) {
+                reference = calendar.date(byAdding: .day, value: -1, to: reference)!
+                continue
+            }
+
+            guard preferences.graceDayEnabled,
+                  canUseGraceDay(
+                    for: reference,
+                    completedDays: completedDays,
+                    earliestCompletedDay: earliestCompletedDay,
+                    usedGraceWeeks: &usedGraceWeeks
+                  )
+            else {
+                return true
+            }
+
+            reference = calendar.date(byAdding: .day, value: -1, to: reference)!
+        }
+
+        return false
     }
 
     // MARK: - Actions
@@ -82,6 +117,9 @@ final class ChallengeStore: ObservableObject {
                 dayIndex: session.dayIndex, streak: streak)
             NotificationManager.shared.scheduleDailyReminder(
                 at: preferences.reminderTime, dayIndex: currentDayIndex)
+        }
+        if preferences.healthKitEnabled {
+            HealthKitManager.shared.saveWorkout(session)
         }
     }
 
@@ -106,10 +144,8 @@ final class ChallengeStore: ObservableObject {
 
     private func recalculateStreak() {
         let calendar = Calendar.current
-        let completedDates = sessions
-            .filter(\.isCompleted)
-            .map { calendar.startOfDay(for: $0.endedAt) }
-            .sorted()
+        let completedDates = completedCalendarDays
+        let earliestCompletedDay = completedDates.min()
 
         guard !completedDates.isEmpty else {
             streak = 0
@@ -118,46 +154,73 @@ final class ChallengeStore: ObservableObject {
 
         var count = 0
         var reference = calendar.startOfDay(for: Date())
+        var usedGraceWeeks = Set<Date>()
 
         // Walk backwards from today
         while true {
             if completedDates.contains(reference) {
                 count += 1
                 reference = calendar.date(byAdding: .day, value: -1, to: reference)!
-            } else if preferences.graceDayEnabled {
-                // Allow one missed day per week: skip if next day back is completed
-                let dayBefore = calendar.date(byAdding: .day, value: -1, to: reference)!
-                if completedDates.contains(dayBefore) {
-                    // Check we haven't used grace day in this week already
-                    let weekAgo = calendar.date(byAdding: .day, value: -7, to: Date())!
-                    let gracesUsed = missedDays(in: completedDates, from: weekAgo, to: Date())
-                    if gracesUsed <= 1 {
-                        reference = dayBefore
-                        continue
-                    }
-                }
-                break
-            } else {
+                continue
+            }
+
+            guard preferences.graceDayEnabled,
+                  canUseGraceDay(
+                    for: reference,
+                    completedDays: completedDates,
+                    earliestCompletedDay: earliestCompletedDay,
+                    usedGraceWeeks: &usedGraceWeeks
+                  )
+            else {
                 break
             }
+
+            reference = calendar.date(byAdding: .day, value: -1, to: reference)!
         }
 
         streak = count
     }
 
-    private func missedDays(in dates: [Date], from start: Date, to end: Date) -> Int {
+    private func canUseGraceDay(
+        for day: Date,
+        completedDays: Set<Date>,
+        earliestCompletedDay: Date?,
+        usedGraceWeeks: inout Set<Date>
+    ) -> Bool {
         let calendar = Calendar.current
-        var missed = 0
-        var current = calendar.startOfDay(for: start)
-        let endDay = calendar.startOfDay(for: end)
+        guard let earliestCompletedDay else { return false }
+        guard day > earliestCompletedDay else { return false }
 
-        while current <= endDay {
-            if !dates.contains(current) {
-                missed += 1
-            }
-            current = calendar.date(byAdding: .day, value: 1, to: current)!
+        let previousDay = calendar.date(byAdding: .day, value: -1, to: day)!
+        guard completedDays.contains(previousDay) || day > calendar.startOfDay(for: Date()) else {
+            return false
         }
-        return missed
+
+        guard let weekStart = calendar.dateInterval(of: .weekOfYear, for: day)?.start else {
+            return false
+        }
+
+        if usedGraceWeeks.contains(weekStart) {
+            return false
+        }
+
+        usedGraceWeeks.insert(weekStart)
+        return true
+    }
+
+    private var todayCompletedSession: PlankSession? {
+        sessions.last(where: { $0.isCompleted && Calendar.current.isDateInToday($0.endedAt) })
+    }
+
+    private var completedDayIndexes: Set<Int> {
+        Set(sessions.filter(\.isCompleted).map(\.dayIndex))
+    }
+
+    private var completedCalendarDays: Set<Date> {
+        let calendar = Calendar.current
+        return Set(sessions
+            .filter(\.isCompleted)
+            .map { calendar.startOfDay(for: $0.endedAt) })
     }
 
     // MARK: - Persistence

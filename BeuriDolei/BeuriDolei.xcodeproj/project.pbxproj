@@ -21,6 +21,8 @@
 		9F1918AE0AC6434C900EE157 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B16121ABC0488FAFB5FDF4 /* ProgressView.swift */; };
 		9C48AF3EE120450E81452A48 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A23B7E0BDB40B89D6487AB /* NotificationManager.swift */; };
 		60AD428DED2C47CCAF0BFBD7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA4FC02262B4B40B1AAFE27 /* SettingsView.swift */; };
+		384DBFF4C88B4739B7331A9C /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02305B96962849F58FDEE725 /* HealthKitManager.swift */; };
+		E9D20ADD5E0D4018AFEED60F /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD40E3155884346B603FECF /* HealthKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,8 @@
 		99B16121ABC0488FAFB5FDF4 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		28A23B7E0BDB40B89D6487AB /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		BCA4FC02262B4B40B1AAFE27 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		02305B96962849F58FDEE725 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		9CD40E3155884346B603FECF /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9D20ADD5E0D4018AFEED60F /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				28A23B7E0BDB40B89D6487AB /* NotificationManager.swift */,
+				02305B96962849F58FDEE725 /* HealthKitManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -210,6 +216,7 @@
 				4BFA586D6821405FB0AA7DBB /* CompletionView.swift in Sources */,
 				9F1918AE0AC6434C900EE157 /* ProgressView.swift in Sources */,
 				9C48AF3EE120450E81452A48 /* NotificationManager.swift in Sources */,
+				384DBFF4C88B4739B7331A9C /* HealthKitManager.swift in Sources */,
 				60AD428DED2C47CCAF0BFBD7 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -222,12 +229,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "BeuriDolei/BeuriDolei.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BeuriDolei/Preview Content\"";
 				DEVELOPMENT_TEAM = 3N9HH8Z8QD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "BeuriDolei enregistre vos séances de planche dans Santé.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "BeuriDolei enregistre vos séances de planche dans Santé.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -368,12 +378,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "BeuriDolei/BeuriDolei.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BeuriDolei/Preview Content\"";
 				DEVELOPMENT_TEAM = 3N9HH8Z8QD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "BeuriDolei enregistre vos séances de planche dans Santé.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "BeuriDolei enregistre vos séances de planche dans Santé.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

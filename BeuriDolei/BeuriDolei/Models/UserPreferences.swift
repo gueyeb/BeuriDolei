@@ -8,4 +8,5 @@ struct UserPreferences: Codable, Equatable {
     }()
     var hapticsEnabled: Bool = true
     var graceDayEnabled: Bool = true
+    var healthKitEnabled: Bool = false
 }
