@@ -16,6 +16,8 @@
 		0861CCCF8F4D4C3384E6981C /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6B8B188B9741FCB868840F /* UserPreferences.swift */; };
 		DFA35993BA6E42008D0EB082 /* ChallengeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADF288084064C73AB227455 /* ChallengeStore.swift */; };
 		446CC179EC4A4660A6BF5BA7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE27CC3B7E441984A2BF6A /* HomeView.swift */; };
+		DD6DD9111ADF466E8124A83E /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1F17BCFECA4B64B476C56B /* TimerView.swift */; };
+		4BFA586D6821405FB0AA7DBB /* CompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD179BAA0F09472193DD44A1 /* CompletionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +31,8 @@
 		5A6B8B188B9741FCB868840F /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
 		6ADF288084064C73AB227455 /* ChallengeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStore.swift; sourceTree = "<group>"; };
 		8BFE27CC3B7E441984A2BF6A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		8D1F17BCFECA4B64B476C56B /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
+		BD179BAA0F09472193DD44A1 /* CompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				8BFE27CC3B7E441984A2BF6A /* HomeView.swift */,
+				8D1F17BCFECA4B64B476C56B /* TimerView.swift */,
+				BD179BAA0F09472193DD44A1 /* CompletionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -183,6 +189,8 @@
 				0861CCCF8F4D4C3384E6981C /* UserPreferences.swift in Sources */,
 				DFA35993BA6E42008D0EB082 /* ChallengeStore.swift in Sources */,
 				446CC179EC4A4660A6BF5BA7 /* HomeView.swift in Sources */,
+				DD6DD9111ADF466E8124A83E /* TimerView.swift in Sources */,
+				4BFA586D6821405FB0AA7DBB /* CompletionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
