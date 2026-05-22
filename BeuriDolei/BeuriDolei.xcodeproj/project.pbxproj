@@ -15,6 +15,7 @@
 		33AE898EB2814D9F9EC539F4 /* PlankSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840A7C295A444944A703E53C /* PlankSession.swift */; };
 		0861CCCF8F4D4C3384E6981C /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6B8B188B9741FCB868840F /* UserPreferences.swift */; };
 		DFA35993BA6E42008D0EB082 /* ChallengeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADF288084064C73AB227455 /* ChallengeStore.swift */; };
+		446CC179EC4A4660A6BF5BA7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE27CC3B7E441984A2BF6A /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		840A7C295A444944A703E53C /* PlankSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlankSession.swift; sourceTree = "<group>"; };
 		5A6B8B188B9741FCB868840F /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
 		6ADF288084064C73AB227455 /* ChallengeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStore.swift; sourceTree = "<group>"; };
+		8BFE27CC3B7E441984A2BF6A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,14 @@
 			path = Store;
 			sourceTree = "<group>";
 		};
+		13E33B4D1600436997B21C22 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8BFE27CC3B7E441984A2BF6A /* HomeView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		7B36E1E094E743499FD89F0D /* BeuriDolei */ = {
 			isa = PBXGroup;
 			children = (
@@ -73,6 +83,7 @@
 				22360DC803A04FA3B9E0473D /* ContentView.swift */,
 				67AB3F6791A24AB9914F497F /* Models */,
 				69EDE98CA9D7444E9ACD50B5 /* Store */,
+				13E33B4D1600436997B21C22 /* Views */,
 				27E1C6C2209D44B288B629B4 /* Assets.xcassets */,
 				374EA306A4ED41A48CD31468 /* Preview Content */,
 			);
@@ -171,6 +182,7 @@
 				33AE898EB2814D9F9EC539F4 /* PlankSession.swift in Sources */,
 				0861CCCF8F4D4C3384E6981C /* UserPreferences.swift in Sources */,
 				DFA35993BA6E42008D0EB082 /* ChallengeStore.swift in Sources */,
+				446CC179EC4A4660A6BF5BA7 /* HomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
