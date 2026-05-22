@@ -7,6 +7,7 @@ final class HealthKitManager {
 
     private let store = HKHealthStore()
     private let workoutType = HKObjectType.workoutType()
+    private let activeEnergyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!
     private let externalUUIDKey = HKMetadataKeyExternalUUID
     private let variantKey = "BeuriDoleiVariant"
 
@@ -46,22 +47,11 @@ final class HealthKitManager {
             let energyBurned = calories.map {
                 HKQuantity(unit: .kilocalorie(), doubleValue: $0)
             }
-
-            let workout = HKWorkout(
-                activityType: .coreTraining,
-                start: session.startedAt,
-                end: session.endedAt,
-                duration: session.duration,
-                totalEnergyBurned: energyBurned,
-                totalDistance: nil,
-                metadata: self.metadata(for: session)
+            self.persistWorkout(
+                session: session,
+                energyBurned: energyBurned,
+                completion: completion
             )
-
-            self.store.save(workout) { success, _ in
-                DispatchQueue.main.async {
-                    completion?(success)
-                }
-            }
         }
     }
 
@@ -91,6 +81,98 @@ final class HealthKitManager {
             externalUUIDKey: session.id.uuidString,
             variantKey: session.variant.rawValue,
         ]
+    }
+
+    private func persistWorkout(
+        session: PlankSession,
+        energyBurned: HKQuantity?,
+        completion: ((Bool) -> Void)?
+    ) {
+        let configuration = HKWorkoutConfiguration()
+        configuration.activityType = .coreTraining
+        configuration.locationType = .unknown
+
+        let builder = HKWorkoutBuilder(
+            healthStore: store,
+            configuration: configuration,
+            device: .local()
+        )
+
+        builder.beginCollection(withStart: session.startedAt) { [weak self] success, _ in
+            guard let self, success else {
+                DispatchQueue.main.async { completion?(false) }
+                return
+            }
+
+            self.addEnergyIfNeeded(
+                energyBurned,
+                to: builder,
+                session: session,
+                completion: completion
+            )
+        }
+    }
+
+    private func addEnergyIfNeeded(
+        _ energyBurned: HKQuantity?,
+        to builder: HKWorkoutBuilder,
+        session: PlankSession,
+        completion: ((Bool) -> Void)?
+    ) {
+        guard let energyBurned else {
+            addMetadata(to: builder, session: session, completion: completion)
+            return
+        }
+
+        let sample = HKQuantitySample(
+            type: activeEnergyType,
+            quantity: energyBurned,
+            start: session.startedAt,
+            end: session.endedAt
+        )
+
+        builder.add([sample]) { [weak self] success, _ in
+            guard let self, success else {
+                DispatchQueue.main.async { completion?(false) }
+                return
+            }
+
+            self.addMetadata(to: builder, session: session, completion: completion)
+        }
+    }
+
+    private func addMetadata(
+        to builder: HKWorkoutBuilder,
+        session: PlankSession,
+        completion: ((Bool) -> Void)?
+    ) {
+        builder.addMetadata(metadata(for: session)) { [weak self] success, _ in
+            guard let self, success else {
+                DispatchQueue.main.async { completion?(false) }
+                return
+            }
+
+            self.finishWorkout(builder: builder, session: session, completion: completion)
+        }
+    }
+
+    private func finishWorkout(
+        builder: HKWorkoutBuilder,
+        session: PlankSession,
+        completion: ((Bool) -> Void)?
+    ) {
+        builder.endCollection(withEnd: session.endedAt) { success, _ in
+            guard success else {
+                DispatchQueue.main.async { completion?(false) }
+                return
+            }
+
+            builder.finishWorkout { workout, _ in
+                DispatchQueue.main.async {
+                    completion?(workout != nil)
+                }
+            }
+        }
     }
 
     // ~3.5 MET for plank × body weight ~70kg ÷ 3600 × duration
