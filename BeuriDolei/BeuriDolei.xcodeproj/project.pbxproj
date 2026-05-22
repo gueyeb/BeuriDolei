@@ -1,4 +1,4 @@
-// !UTF8*0
+// !$*UTF8*$!
 {
 	archiveVersion = 1;
 	classes = {
@@ -7,18 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A910E8B4FA744A694317D2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27E1C6C2209D44B288B629B4 /* Assets.xcassets */; };
 		2FEDF40156804FC0B1AF7CBE /* BeuriDoleiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7575EC181F04897926AE716 /* BeuriDoleiApp.swift */; };
 		5ED6D908F4C5427FAB0A9F58 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22360DC803A04FA3B9E0473D /* ContentView.swift */; };
-		0A910E8B4FA744A694317D2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27E1C6C2209D44B288B629B4 /* Assets.xcassets */; };
 		F011FE3500F64EB4B4DF8B84 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 497B7FEBE05E41A7ACB89DB8 /* Preview Assets.xcassets */; };
+		E88D7B7C7DD74A439C622BBD /* ChallengeDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC87BB60894A38BA52A803 /* ChallengeDay.swift */; };
+		33AE898EB2814D9F9EC539F4 /* PlankSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840A7C295A444944A703E53C /* PlankSession.swift */; };
+		0861CCCF8F4D4C3384E6981C /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6B8B188B9741FCB868840F /* UserPreferences.swift */; };
+		DFA35993BA6E42008D0EB082 /* ChallengeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADF288084064C73AB227455 /* ChallengeStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B7575EC181F04897926AE716 /* BeuriDoleiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeuriDoleiApp.swift; sourceTree = "<group>"; };
+		1B2F4EF8C24440BD827D60CD /* BeuriDolei.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeuriDolei.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22360DC803A04FA3B9E0473D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		27E1C6C2209D44B288B629B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		497B7FEBE05E41A7ACB89DB8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		1B2F4EF8C24440BD827D60CD /* BeuriDolei.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeuriDolei.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7575EC181F04897926AE716 /* BeuriDoleiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeuriDoleiApp.swift; sourceTree = "<group>"; };
+		32DC87BB60894A38BA52A803 /* ChallengeDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDay.swift; sourceTree = "<group>"; };
+		840A7C295A444944A703E53C /* PlankSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlankSession.swift; sourceTree = "<group>"; };
+		5A6B8B188B9741FCB868840F /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		6ADF288084064C73AB227455 /* ChallengeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,25 +40,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D2DAAB73E48B45428D8BF61E /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				7B36E1E094E743499FD89F0D /* BeuriDolei */,
-				915BD39C92EC4966A3EB5A3B /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		7B36E1E094E743499FD89F0D /* BeuriDolei */ = {
-			isa = PBXGroup;
-			children = (
-				B7575EC181F04897926AE716 /* BeuriDoleiApp.swift */,
-				22360DC803A04FA3B9E0473D /* ContentView.swift */,
-				27E1C6C2209D44B288B629B4 /* Assets.xcassets */,
-				374EA306A4ED41A48CD31468 /* Preview Content */,
-			);
-			path = BeuriDolei;
-			sourceTree = "<group>";
-		};
 		374EA306A4ED41A48CD31468 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
@@ -59,12 +48,51 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		67AB3F6791A24AB9914F497F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				32DC87BB60894A38BA52A803 /* ChallengeDay.swift */,
+				840A7C295A444944A703E53C /* PlankSession.swift */,
+				5A6B8B188B9741FCB868840F /* UserPreferences.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		69EDE98CA9D7444E9ACD50B5 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				6ADF288084064C73AB227455 /* ChallengeStore.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		7B36E1E094E743499FD89F0D /* BeuriDolei */ = {
+			isa = PBXGroup;
+			children = (
+				B7575EC181F04897926AE716 /* BeuriDoleiApp.swift */,
+				22360DC803A04FA3B9E0473D /* ContentView.swift */,
+				67AB3F6791A24AB9914F497F /* Models */,
+				69EDE98CA9D7444E9ACD50B5 /* Store */,
+				27E1C6C2209D44B288B629B4 /* Assets.xcassets */,
+				374EA306A4ED41A48CD31468 /* Preview Content */,
+			);
+			path = BeuriDolei;
+			sourceTree = "<group>";
+		};
 		915BD39C92EC4966A3EB5A3B /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				1B2F4EF8C24440BD827D60CD /* BeuriDolei.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D2DAAB73E48B45428D8BF61E = {
+			isa = PBXGroup;
+			children = (
+				7B36E1E094E743499FD89F0D /* BeuriDolei */,
+				915BD39C92EC4966A3EB5A3B /* Products */,
+			);
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,12 +167,46 @@
 			files = (
 				5ED6D908F4C5427FAB0A9F58 /* ContentView.swift in Sources */,
 				2FEDF40156804FC0B1AF7CBE /* BeuriDoleiApp.swift in Sources */,
+				E88D7B7C7DD74A439C622BBD /* ChallengeDay.swift in Sources */,
+				33AE898EB2814D9F9EC539F4 /* PlankSession.swift in Sources */,
+				0861CCCF8F4D4C3384E6981C /* UserPreferences.swift in Sources */,
+				DFA35993BA6E42008D0EB082 /* ChallengeStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		260B30C777334B9FBABBA5E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"BeuriDolei/Preview Content\"";
+				DEVELOPMENT_TEAM = 3N9HH8Z8QD;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dakhine.BeuriDolei;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		3160653460884B1089492A9B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -269,6 +331,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BeuriDolei/Preview Content\"";
+				DEVELOPMENT_TEAM = 3N9HH8Z8QD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -290,52 +353,23 @@
 			};
 			name = Debug;
 		};
-		260B30C777334B9FBABBA5E4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"BeuriDolei/Preview Content\"";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dakhine.BeuriDolei;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F7D10BF5F2154A40B46B7964 /* Build configuration list for PBXProject "BeuriDolei" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3160653460884B1089492A9B /* Debug */,
-				80C67B9E52C74868BCE72FC1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		A1198394751D4C35BC50FF77 /* Build configuration list for PBXNativeTarget "BeuriDolei" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CEC3A0EAD3C1489EA96021D5 /* Debug */,
 				260B30C777334B9FBABBA5E4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F7D10BF5F2154A40B46B7964 /* Build configuration list for PBXProject "BeuriDolei" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3160653460884B1089492A9B /* Debug */,
+				80C67B9E52C74868BCE72FC1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
