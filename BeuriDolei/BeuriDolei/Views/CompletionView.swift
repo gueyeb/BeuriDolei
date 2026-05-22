@@ -7,7 +7,10 @@ struct CompletionView: View {
     @EnvironmentObject var store: ChallengeStore
 
     private var totalHeld: Int { session.totalCompleted }
+    private var totalTarget: Int { session.totalTarget }
     private var isFullyCompleted: Bool { session.isCompleted }
+    private var isRecord: Bool { totalHeld > totalTarget }
+    private var nextDay: ChallengeDay? { store.nextDay }
 
     var body: some View {
         ZStack {
@@ -16,8 +19,12 @@ struct CompletionView: View {
             VStack(spacing: 0) {
                 Spacer()
                 trophy
+                messageBlock
+                    .padding(.top, 24)
                 Spacer()
                 stats
+                    .padding(.bottom, 18)
+                nextDayCard
                 Spacer()
                 doneButton
                     .padding(.bottom, 48)
@@ -41,9 +48,31 @@ struct CompletionView: View {
                 .tracking(2)
                 .foregroundStyle(.white)
 
-            Text("Jour \(session.dayIndex + 1) sur \(ChallengeDay.totalDays)")
+            if isRecord {
+                Text("RECORD !")
+                    .font(.caption.weight(.black))
+                    .tracking(2)
+                    .foregroundStyle(.yellow)
+            } else {
+                Text("Jour \(session.dayIndex + 1) sur \(ChallengeDay.totalDays)")
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(.white.opacity(0.8))
+            }
+        }
+    }
+
+    private var messageBlock: some View {
+        VStack(spacing: 10) {
+            Text("\(timeString(totalHeld)) / \(timeString(totalTarget))")
+                .font(.system(size: 28, weight: .black, design: .rounded))
+                .monospacedDigit()
+                .foregroundStyle(.white)
+
+            Text(motivationMessage)
                 .font(.subheadline.weight(.medium))
-                .foregroundStyle(.white.opacity(0.8))
+                .multilineTextAlignment(.center)
+                .foregroundStyle(.white.opacity(0.82))
+                .padding(.horizontal, 32)
         }
     }
 
@@ -53,11 +82,11 @@ struct CompletionView: View {
         HStack(spacing: 16) {
             statPill(
                 value: timeString(totalHeld),
-                label: "temps total"
+                label: "réalisé"
             )
             statPill(
-                value: "\(session.seriesCompleted.count)",
-                label: "séries"
+                value: timeString(totalTarget),
+                label: "objectif"
             )
             statPill(
                 value: "\(store.streak)",
@@ -81,11 +110,33 @@ struct CompletionView: View {
         .background(.white.opacity(0.15), in: RoundedRectangle(cornerRadius: 16))
     }
 
+    @ViewBuilder
+    private var nextDayCard: some View {
+        if let nextDay {
+            VStack(spacing: 6) {
+                Text("PROCHAIN JOUR")
+                    .font(.caption.weight(.bold))
+                    .tracking(2)
+                    .foregroundStyle(.white.opacity(0.68))
+                Text("Jour \(nextDay.dayIndex + 1) · \(timeString(nextDay.totalDuration))")
+                    .font(.headline.weight(.bold))
+                    .foregroundStyle(.white)
+                Text(nextDay.series.map(timeString).joined(separator: " · "))
+                    .font(.caption)
+                    .foregroundStyle(.white.opacity(0.75))
+            }
+            .padding(.vertical, 18)
+            .frame(maxWidth: .infinity)
+            .background(.white.opacity(0.12), in: RoundedRectangle(cornerRadius: 18))
+            .padding(.horizontal, 24)
+        }
+    }
+
     // MARK: - Done button
 
     private var doneButton: some View {
         Button(action: onDone) {
-            Text("CONTINUER")
+            Text("RETOUR À L'ACCUEIL")
                 .font(.headline.weight(.black))
                 .tracking(1)
                 .foregroundStyle(completionBackground)
@@ -100,7 +151,7 @@ struct CompletionView: View {
 
     private var completionBackground: Color {
         isFullyCompleted
-            ? .green.mix(with: .teal, by: 0.3)
+            ? Color(red: 0.10, green: 0.67, blue: 0.48)
             : .orange
     }
 
@@ -111,6 +162,16 @@ struct CompletionView: View {
         let m = seconds / 60
         let s = seconds % 60
         return s == 0 ? "\(m)min" : "\(m)'\(s)\""
+    }
+
+    private var motivationMessage: String {
+        if isRecord {
+            return "Vous avez dépassé la cible du jour. Continuez sur ce rythme."
+        }
+        if isFullyCompleted {
+            return "Objectif atteint. Le streak reste propre, revenez demain."
+        }
+        return "Séance enregistrée. Reposez-vous et reprenez demain."
     }
 }
 

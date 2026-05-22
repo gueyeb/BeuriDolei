@@ -75,6 +75,13 @@ final class ChallengeStore: ObservableObject {
         return ChallengeDay.programme[nextIndex]
     }
 
+    var reminderDayIndex: Int {
+        if isTodayCompleted, let nextDay {
+            return nextDay.dayIndex
+        }
+        return currentDayIndex
+    }
+
     func streakBroken(since date: Date) -> Bool {
         let calendar = Calendar.current
         let completedDays = completedCalendarDays
@@ -116,7 +123,7 @@ final class ChallengeStore: ObservableObject {
             NotificationManager.shared.scheduleCongratsNotification(
                 dayIndex: session.dayIndex, streak: streak)
             NotificationManager.shared.scheduleDailyReminder(
-                at: preferences.reminderTime, dayIndex: currentDayIndex)
+                at: preferences.reminderTime, dayIndex: reminderDayIndex)
         }
         if preferences.healthKitEnabled {
             HealthKitManager.shared.saveWorkout(session)
@@ -126,7 +133,7 @@ final class ChallengeStore: ObservableObject {
     func applyNotificationPreferences() {
         if preferences.notificationsEnabled {
             NotificationManager.shared.scheduleDailyReminder(
-                at: preferences.reminderTime, dayIndex: currentDayIndex)
+                at: preferences.reminderTime, dayIndex: reminderDayIndex)
         } else {
             NotificationManager.shared.cancelDailyReminder()
         }

@@ -20,6 +20,8 @@ struct TimerView: View {
     private var remaining: Int { max(target - elapsed, 0) }
     private var ringProgress: Double { min(Double(elapsed) / Double(target), 1.0) }
     private var isLastSerie: Bool { currentSerieIndex == day.series.count - 1 }
+    private var hasStartedCurrentSerie: Bool { elapsed > 0 || isRunning || isPaused }
+    private var hasStartedSession: Bool { !seriesCompleted.isEmpty || hasStartedCurrentSerie }
 
     var body: some View {
         ZStack {
@@ -39,6 +41,9 @@ struct TimerView: View {
                     .padding(.bottom, 48)
             }
         }
+        .onDisappear {
+            timer?.invalidate()
+        }
         .navigationBarBackButtonHidden()
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
@@ -56,7 +61,7 @@ struct TimerView: View {
             }
         }
         .alert("Abandonner la séance ?", isPresented: $showAbandonAlert) {
-            Button("Abandonner", role: .destructive) { dismiss() }
+            Button("Abandonner", role: .destructive) { abandonSession() }
             Button("Continuer", role: .cancel) {}
         }
         .navigationDestination(isPresented: $navigateToCompletion) {
@@ -90,7 +95,7 @@ struct TimerView: View {
 
     private var mainTimer: some View {
         VStack(spacing: 24) {
-            Text(isRunning || isPaused ? "EN COURS" : "À FAIRE")
+            Text(statusLabel)
                 .font(.caption.weight(.bold))
                 .tracking(3)
                 .foregroundStyle(.white.opacity(0.7))
@@ -121,10 +126,10 @@ struct TimerView: View {
 
     // MARK: - Bottom bar
 
+    @ViewBuilder
     private var bottomBar: some View {
-        HStack(spacing: 24) {
-            // Pause / Resume
-            if isRunning || isPaused {
+        if isRunning || isPaused {
+            HStack(spacing: 16) {
                 Button {
                     isPaused ? resumeTimer() : pauseTimer()
                 } label: {
@@ -134,15 +139,23 @@ struct TimerView: View {
                         .frame(width: 60, height: 60)
                         .background(.white.opacity(0.15), in: Circle())
                 }
-            }
 
-            // Main CTA
-            Button {
-                if !isRunning && !isPaused {
-                    startTimer()
-                } else {
-                    completeSerie()
+                Button {
+                    stopTimer()
+                } label: {
+                    Text("STOP")
+                        .font(.headline.weight(.black))
+                        .tracking(1)
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 20)
+                        .background(.white.opacity(0.16), in: RoundedRectangle(cornerRadius: 18))
                 }
+            }
+            .padding(.horizontal, 24)
+        } else {
+            Button {
+                startTimer()
             } label: {
                 Text(ctaLabel)
                     .font(.headline.weight(.black))
@@ -152,28 +165,41 @@ struct TimerView: View {
                     .padding(.vertical, 20)
                     .background(.white, in: RoundedRectangle(cornerRadius: 18))
             }
+            .padding(.horizontal, 24)
         }
-        .padding(.horizontal, 24)
     }
 
     private var ctaLabel: String {
-        if !isRunning && !isPaused { return "DÉMARRER" }
-        if remaining == 0 { return isLastSerie ? "TERMINER" : "SÉRIE SUIVANTE" }
-        return isLastSerie ? "TERMINER" : "SÉRIE SUIVANTE"
+        hasStartedSession ? "DÉMARRER SÉRIE \(currentSerieIndex + 1)" : "DÉMARRER"
+    }
+
+    private var statusLabel: String {
+        if isRunning { return "EN COURS" }
+        if isPaused { return "PAUSE" }
+        if hasStartedSession { return "PRÊT" }
+        return "À FAIRE"
     }
 
     // MARK: - Background color
 
     private var backgroundColor: Color {
-        if ringProgress >= 1.0 { return .green.mix(with: .orange, by: 0.3) }
-        let intensity = ringProgress
-        return Color.orange.mix(with: Color(.systemGroupedBackground), by: 1 - intensity * 0.8)
+        if ringProgress >= 1.0 {
+            return Color(red: 0.10, green: 0.67, blue: 0.48)
+        }
+
+        return interpolatedColor(
+            from: (0.08, 0.09, 0.11),
+            to: (0.94, 0.48, 0.12),
+            progress: ringProgress
+        )
     }
 
     // MARK: - Timer logic
 
     private func startTimer() {
-        sessionStartedAt = Date()
+        if seriesCompleted.isEmpty && !hasStartedCurrentSerie {
+            sessionStartedAt = Date()
+        }
         isRunning = true
         isPaused = false
         startTick()
@@ -193,17 +219,23 @@ struct TimerView: View {
 
     private func startTick() {
         timer?.invalidate()
+        let hapticsEnabled = store.preferences.hapticsEnabled
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             elapsed += 1
-            if store.preferences.hapticsEnabled && elapsed % 10 == 0 {
+            if hapticsEnabled && elapsed % 10 == 0 {
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            }
+            if elapsed >= target {
+                completeSerie()
             }
         }
     }
 
     private func completeSerie() {
         timer?.invalidate()
-        seriesCompleted.append(elapsed)
+        isRunning = false
+        isPaused = false
+        seriesCompleted.append(min(elapsed, target))
 
         if isLastSerie {
             UINotificationFeedbackGenerator().notificationOccurred(.success)
@@ -214,9 +246,18 @@ struct TimerView: View {
             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
             currentSerieIndex += 1
             elapsed = 0
-            isRunning = false
-            isPaused = false
         }
+    }
+
+    private func stopTimer() {
+        showAbandonAlert = true
+    }
+
+    private func abandonSession() {
+        timer?.invalidate()
+        isRunning = false
+        isPaused = false
+        dismiss()
     }
 
     private func buildSession() -> PlankSession {
@@ -235,6 +276,18 @@ struct TimerView: View {
 
     private func timeString(_ seconds: Int) -> String {
         String(format: "%d:%02d", seconds / 60, seconds % 60)
+    }
+
+    private func interpolatedColor(
+        from start: (Double, Double, Double),
+        to end: (Double, Double, Double),
+        progress: Double
+    ) -> Color {
+        let clamped = max(0, min(progress, 1))
+        let red = start.0 + (end.0 - start.0) * clamped
+        let green = start.1 + (end.1 - start.1) * clamped
+        let blue = start.2 + (end.2 - start.2) * clamped
+        return Color(red: red, green: green, blue: blue)
     }
 }
 

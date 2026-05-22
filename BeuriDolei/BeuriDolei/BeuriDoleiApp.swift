@@ -13,7 +13,7 @@ struct BeuriDoleiApp: App {
                         NotificationManager.shared.requestPermission()
                         NotificationManager.shared.scheduleDailyReminder(
                             at: store.preferences.reminderTime,
-                            dayIndex: store.currentDayIndex
+                            dayIndex: store.reminderDayIndex
                         )
                     }
                 }

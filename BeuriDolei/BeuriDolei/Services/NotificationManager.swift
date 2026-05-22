@@ -15,10 +15,12 @@ final class NotificationManager {
     func scheduleDailyReminder(at time: Date, dayIndex: Int) {
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: [dailyId])
+        let clampedIndex = max(0, min(dayIndex, ChallengeDay.totalDays - 1))
+        let day = ChallengeDay.programme[clampedIndex]
 
         let content = UNMutableNotificationContent()
         content.title = "BeuriDolei"
-        content.body = "Jour \(dayIndex + 1) sur \(ChallengeDay.totalDays) vous attend. Prêt à tenir ?"
+        content.body = "Jour \(clampedIndex + 1) · objectif \(durationLabel(day.totalDuration)) aujourd'hui."
         content.sound = .default
 
         let comps = Calendar.current.dateComponents([.hour, .minute], from: time)
@@ -46,5 +48,12 @@ final class NotificationManager {
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
         let request = UNNotificationRequest(identifier: congratsId, content: content, trigger: trigger)
         center.add(request, withCompletionHandler: nil)
+    }
+
+    private func durationLabel(_ seconds: Int) -> String {
+        if seconds < 60 { return "\(seconds)s" }
+        let minutes = seconds / 60
+        let remainder = seconds % 60
+        return remainder == 0 ? "\(minutes)min" : "\(minutes)min \(remainder)s"
     }
 }

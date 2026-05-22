@@ -7,20 +7,28 @@ struct HomeView: View {
     @State private var showSettings = false
 
     private var day: ChallengeDay { store.currentDay }
+    private var nextDay: ChallengeDay? { store.nextDay }
     private var progress: Double {
-        Double(store.currentDayIndex) / Double(ChallengeDay.totalDays)
+        Double(store.currentDayIndex + (store.isTodayCompleted ? 1 : 0)) / Double(ChallengeDay.totalDays)
     }
 
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(.systemGroupedBackground).ignoresSafeArea()
+                LinearGradient(
+                    colors: [Color.black, Color(red: 0.12, green: 0.08, blue: 0.03)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
 
                 VStack(spacing: 0) {
                     topBar
                     Spacer()
                     progressRing
                     Spacer()
+                    objectiveCard
+                        .padding(.bottom, 20)
                     seriesCard
                     actionButton
                         .padding(.bottom, 48)
@@ -45,17 +53,17 @@ struct HomeView: View {
             Text("BEURIDOLEI")
                 .font(.caption.weight(.black))
                 .tracking(3)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.white.opacity(0.72))
             Spacer()
             Button { navigateToProgress = true } label: {
                 Image(systemName: "calendar")
                     .font(.headline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.white.opacity(0.8))
             }
             Button { showSettings = true } label: {
                 Image(systemName: "gearshape")
                     .font(.headline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.white.opacity(0.8))
             }
             streakBadge
         }
@@ -69,11 +77,11 @@ struct HomeView: View {
                 .foregroundStyle(.orange)
             Text("\(store.streak)")
                 .font(.headline.weight(.bold))
-                .foregroundStyle(.primary)
+                .foregroundStyle(.white)
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 6)
-        .background(Color(.secondarySystemGroupedBackground), in: Capsule())
+        .background(.white.opacity(0.08), in: Capsule())
     }
 
     // MARK: - Progress ring
@@ -100,16 +108,35 @@ struct HomeView: View {
                 Text("JOUR")
                     .font(.caption.weight(.semibold))
                     .tracking(2)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.white.opacity(0.72))
                 Text("\(store.currentDayIndex + 1)")
                     .font(.system(size: 64, weight: .black, design: .rounded))
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(.white)
                 Text("sur \(ChallengeDay.totalDays)")
                     .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.white.opacity(0.72))
             }
         }
         .frame(width: 220, height: 220)
+    }
+
+    private var objectiveCard: some View {
+        VStack(spacing: 8) {
+            Text(store.isTodayCompleted ? "SÉANCE TERMINÉE" : "OBJECTIF DU JOUR")
+                .font(.caption.weight(.bold))
+                .tracking(2)
+                .foregroundStyle(.white.opacity(0.65))
+            Text(formatted(day.totalDuration))
+                .font(.system(size: 32, weight: .black, design: .rounded))
+                .foregroundStyle(.white)
+            Text(day.series.map(formatted).joined(separator: " · "))
+                .font(.subheadline.weight(.medium))
+                .foregroundStyle(.white.opacity(0.72))
+        }
+        .padding(.vertical, 20)
+        .frame(maxWidth: .infinity)
+        .background(.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 22))
+        .padding(.horizontal, 24)
     }
 
     // MARK: - Series card
@@ -121,14 +148,14 @@ struct HomeView: View {
                     VStack(spacing: 4) {
                         Text(formatted(seconds))
                             .font(.title3.weight(.bold).monospacedDigit())
-                            .foregroundStyle(.primary)
+                            .foregroundStyle(.white)
                         Text("série \(index + 1)")
                             .font(.caption2.weight(.medium))
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(.white.opacity(0.65))
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 16)
-                    .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 14))
+                    .background(.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 14))
                 }
             }
             .padding(.horizontal, 24)
@@ -138,7 +165,7 @@ struct HomeView: View {
                     .foregroundStyle(.orange)
                 Text("Total · \(formatted(day.totalDuration))")
                     .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.white.opacity(0.72))
             }
         }
         .padding(.bottom, 32)
@@ -173,15 +200,15 @@ struct HomeView: View {
                     .foregroundStyle(.green)
                 Text("Séance du jour complétée")
                     .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(.white)
             }
-            Text("Revenez demain pour le jour \(store.currentDayIndex + 2)")
+            Text(completedSubtitle)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.white.opacity(0.72))
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 20)
-        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 18))
+        .background(.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 18))
         .padding(.horizontal, 24)
     }
 
@@ -192,6 +219,11 @@ struct HomeView: View {
         let m = seconds / 60
         let s = seconds % 60
         return s == 0 ? "\(m)min" : "\(m)min \(s)s"
+    }
+
+    private var completedSubtitle: String {
+        guard let nextDay else { return "Défi terminé. Bravo." }
+        return "Revenez demain pour le jour \(nextDay.dayIndex + 1)"
     }
 }
 
