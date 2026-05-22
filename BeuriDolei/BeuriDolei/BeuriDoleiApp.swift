@@ -8,14 +8,9 @@ struct BeuriDoleiApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(store)
+                .preferredColorScheme(.dark)
                 .onAppear {
-                    if store.preferences.notificationsEnabled {
-                        NotificationManager.shared.requestPermission()
-                        NotificationManager.shared.scheduleDailyReminder(
-                            at: store.preferences.reminderTime,
-                            dayIndex: store.reminderDayIndex
-                        )
-                    }
+                    store.bootstrapPermissionsIfNeeded()
                 }
         }
     }

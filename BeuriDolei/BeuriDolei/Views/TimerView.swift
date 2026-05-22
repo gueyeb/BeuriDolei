@@ -2,6 +2,7 @@ import SwiftUI
 
 struct TimerView: View {
     let day: ChallengeDay
+    let variant: PlankVariant
 
     @EnvironmentObject var store: ChallengeStore
     @Environment(\.dismiss) private var dismiss
@@ -114,10 +115,15 @@ struct TimerView: View {
                         .font(.system(size: 72, weight: .black, design: .rounded))
                         .monospacedDigit()
                         .foregroundStyle(.white)
+                        .contentTransition(.numericText(countsDown: true))
 
                     Text("série \(currentSerieIndex + 1) / \(day.series.count)")
                         .font(.subheadline.weight(.medium))
                         .foregroundStyle(.white.opacity(0.7))
+
+                    Label(variant.title, systemImage: variant.systemImage)
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.white.opacity(0.75))
                 }
             }
             .frame(width: 260, height: 260)
@@ -267,6 +273,7 @@ struct TimerView: View {
         return PlankSession(
             id: UUID(),
             dayIndex: day.dayIndex,
+            variant: variant,
             startedAt: sessionStartedAt,
             endedAt: Date(),
             seriesCompleted: allCompleted,
@@ -293,7 +300,7 @@ struct TimerView: View {
 
 #Preview {
     NavigationStack {
-        TimerView(day: ChallengeDay.programme[0])
+        TimerView(day: ChallengeDay.programme[0], variant: .classic)
             .environmentObject(ChallengeStore())
     }
 }
