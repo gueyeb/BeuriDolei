@@ -46,6 +46,31 @@ final class ChallengeStore: ObservableObject {
         return completed.count == ChallengeDay.totalDays
     }
 
+    var bestStreak: Int {
+        let calendar = Calendar.current
+        let sortedDates = sessions
+            .filter(\.isCompleted)
+            .map { calendar.startOfDay(for: $0.endedAt) }
+            .sorted()
+        guard !sortedDates.isEmpty else { return 0 }
+        var best = 1, current = 1
+        for i in 1..<sortedDates.count {
+            let delta = calendar.dateComponents([.day], from: sortedDates[i-1], to: sortedDates[i]).day ?? 0
+            current = delta == 1 ? current + 1 : 1
+            best = max(best, current)
+        }
+        return max(best, streak)
+    }
+
+    var totalTimeCompleted: Int {
+        sessions.filter(\.isCompleted).reduce(0) { $0 + $1.totalCompleted }
+    }
+
+    var completionPercentage: Double {
+        let count = Set(sessions.filter(\.isCompleted).map(\.dayIndex)).count
+        return Double(count) / Double(ChallengeDay.totalDays)
+    }
+
     // MARK: - Actions
 
     func completeSession(_ session: PlankSession) {
