@@ -2,7 +2,22 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        HomeView()
+        TabView {
+            NavigationStack {
+                HomeView()
+            }
+            .tabItem { Label("Séance", systemImage: "figure.core.training") }
+
+            NavigationStack {
+                ChallengeProgressView()
+            }
+            .tabItem { Label("Progression", systemImage: "calendar") }
+
+            NavigationStack {
+                SettingsView()
+            }
+            .tabItem { Label("Réglages", systemImage: "gearshape") }
+        }
     }
 }
 

@@ -3,8 +3,6 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var store: ChallengeStore
     @State private var navigateToTimer = false
-    @State private var navigateToProgress = false
-    @State private var showSettings = false
 
     private var day: ChallengeDay { store.currentDay }
     private var nextDay: ChallengeDay? { store.nextDay }
@@ -14,38 +12,30 @@ struct HomeView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            ZStack {
-                LinearGradient(
-                    colors: [Color.black, Color(red: 0.12, green: 0.08, blue: 0.03)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .ignoresSafeArea()
+        ZStack {
+            LinearGradient(
+                colors: [Color.black, Color(red: 0.12, green: 0.08, blue: 0.03)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
 
-                VStack(spacing: 0) {
-                    topBar
-                    Spacer()
-                    progressRing
-                    Spacer()
-                    objectiveCard
-                        .padding(.bottom, 20)
-                    variantSelector
-                        .padding(.bottom, 20)
-                    seriesCard
-                    actionButton
-                        .padding(.bottom, 48)
-                }
+            VStack(spacing: 0) {
+                topBar
+                Spacer()
+                progressRing
+                Spacer()
+                objectiveCard
+                    .padding(.bottom, 20)
+                variantSelector
+                    .padding(.bottom, 20)
+                seriesCard
+                actionButton
+                    .padding(.bottom, 48)
             }
-            .navigationDestination(isPresented: $navigateToTimer) {
-                TimerView(day: day, variant: selectedVariant)
-            }
-            .navigationDestination(isPresented: $navigateToProgress) {
-                ChallengeProgressView()
-            }
-            .sheet(isPresented: $showSettings) {
-                SettingsView()
-            }
+        }
+        .navigationDestination(isPresented: $navigateToTimer) {
+            TimerView(day: day, variant: selectedVariant)
         }
     }
 
@@ -53,21 +43,7 @@ struct HomeView: View {
 
     private var topBar: some View {
         HStack {
-            Text("BEURIDOLEI")
-                .font(.caption.weight(.black))
-                .tracking(3)
-                .foregroundStyle(.white.opacity(0.72))
             Spacer()
-            Button { navigateToProgress = true } label: {
-                Image(systemName: "calendar")
-                    .font(.headline)
-                    .foregroundStyle(.white.opacity(0.8))
-            }
-            Button { showSettings = true } label: {
-                Image(systemName: "gearshape")
-                    .font(.headline)
-                    .foregroundStyle(.white.opacity(0.8))
-            }
             streakBadge
         }
         .padding(.horizontal, 24)
