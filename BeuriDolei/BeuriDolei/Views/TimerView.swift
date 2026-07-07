@@ -153,6 +153,17 @@ struct TimerView: View {
                 }
 
                 Button {
+                    restartSerie()
+                } label: {
+                    Image(systemName: "arrow.counterclockwise")
+                        .font(.title2)
+                        .foregroundStyle(.white)
+                        .frame(width: 60, height: 60)
+                        .background(.white.opacity(0.15), in: Circle())
+                }
+                .accessibilityLabel("Recommencer la série")
+
+                Button {
                     stopTimer()
                 } label: {
                     Text("STOP")
@@ -254,6 +265,12 @@ struct TimerView: View {
 
     private func stopTimer() {
         showAbandonAlert = true
+    }
+
+    private func restartSerie() {
+        timer?.invalidate()
+        timerState.restartCurrentSerie()
+        startTick()
     }
 
     private func abandonSession() {
@@ -383,6 +400,12 @@ struct TimerSessionState: Equatable {
         }
 
         return .serieCompleted
+    }
+
+    mutating func restartCurrentSerie() {
+        elapsed = 0
+        isRunning = true
+        isPaused = false
     }
 
     mutating func abandon() {

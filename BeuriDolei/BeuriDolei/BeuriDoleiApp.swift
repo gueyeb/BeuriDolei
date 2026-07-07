@@ -9,9 +9,6 @@ struct BeuriDoleiApp: App {
             ContentView()
                 .environmentObject(store)
                 .preferredColorScheme(.dark)
-                .onAppear {
-                    store.bootstrapPermissionsIfNeeded()
-                }
         }
     }
 }

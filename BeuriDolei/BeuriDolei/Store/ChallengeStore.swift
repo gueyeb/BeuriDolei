@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import WidgetKit
 
 @MainActor
 final class ChallengeStore: ObservableObject {
@@ -325,6 +326,18 @@ final class ChallengeStore: ObservableObject {
         if let data = try? JSONEncoder().encode(preferences) {
             userDefaults.set(data, forKey: Keys.preferences)
         }
+        syncWidgetSnapshot()
+    }
+
+    private func syncWidgetSnapshot() {
+        WidgetSnapshot(
+            dayIndex: currentDayIndex,
+            totalDays: ChallengeDay.totalDays,
+            streak: streak,
+            isTodayCompleted: isTodayCompleted,
+            updatedAt: Date()
+        ).save()
+        WidgetCenter.shared.reloadTimelines(ofKind: "BeuriDoleiWidget")
     }
 
     private func load() {

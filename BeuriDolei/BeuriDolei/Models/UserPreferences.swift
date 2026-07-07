@@ -14,6 +14,7 @@ struct UserPreferences: Codable, Equatable {
     var preferredVariant: PlankVariant = .classic
     var hasRequestedNotificationsPermission: Bool = false
     var hasRequestedHealthKitPermission: Bool = false
+    var hasCompletedOnboarding: Bool = false
 
     private enum CodingKeys: String, CodingKey {
         case notificationsEnabled
@@ -24,6 +25,7 @@ struct UserPreferences: Codable, Equatable {
         case preferredVariant
         case hasRequestedNotificationsPermission
         case hasRequestedHealthKitPermission
+        case hasCompletedOnboarding
     }
 
     init() {}
@@ -43,5 +45,6 @@ struct UserPreferences: Codable, Equatable {
         preferredVariant = try container.decodeIfPresent(PlankVariant.self, forKey: .preferredVariant) ?? .classic
         hasRequestedNotificationsPermission = try container.decodeIfPresent(Bool.self, forKey: .hasRequestedNotificationsPermission) ?? false
         hasRequestedHealthKitPermission = try container.decodeIfPresent(Bool.self, forKey: .hasRequestedHealthKitPermission) ?? false
+        hasCompletedOnboarding = try container.decodeIfPresent(Bool.self, forKey: .hasCompletedOnboarding) ?? false
     }
 }

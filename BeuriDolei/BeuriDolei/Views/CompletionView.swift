@@ -26,6 +26,8 @@ struct CompletionView: View {
                     .padding(.bottom, 18)
                 nextDayCard
                 Spacer()
+                shareButton
+                    .padding(.bottom, 12)
                 doneButton
                     .padding(.bottom, 48)
             }
@@ -130,6 +132,42 @@ struct CompletionView: View {
             .background(.white.opacity(0.12), in: RoundedRectangle(cornerRadius: 18))
             .padding(.horizontal, 24)
         }
+    }
+
+    // MARK: - Share
+
+    private var shareCardImage: Image {
+        let renderer = ImageRenderer(content: ShareCardView(
+            dayIndex: session.dayIndex,
+            totalHeld: totalHeld,
+            totalTarget: totalTarget,
+            streak: store.streak,
+            isChallengeDone: store.isChallengeDone,
+            date: session.endedAt
+        ))
+        renderer.scale = 3
+        if let uiImage = renderer.uiImage {
+            return Image(uiImage: uiImage)
+        }
+        return Image(systemName: "square.and.arrow.up")
+    }
+
+    private var shareButton: some View {
+        ShareLink(
+            item: shareCardImage,
+            preview: SharePreview(
+                "BeuriDolei - Jour \(session.dayIndex + 1)",
+                image: shareCardImage
+            )
+        ) {
+            Label("Partager ma séance", systemImage: "square.and.arrow.up")
+                .font(.subheadline.weight(.bold))
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 14)
+                .background(.white.opacity(0.15), in: RoundedRectangle(cornerRadius: 14))
+        }
+        .padding(.horizontal, 24)
     }
 
     // MARK: - Done button

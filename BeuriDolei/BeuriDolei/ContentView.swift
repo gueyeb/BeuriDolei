@@ -1,7 +1,22 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var store: ChallengeStore
+
     var body: some View {
+        if store.preferences.hasCompletedOnboarding {
+            mainTabs
+                .onAppear { store.bootstrapPermissionsIfNeeded() }
+        } else {
+            OnboardingView {
+                store.preferences.hasCompletedOnboarding = true
+                store.savePreferences()
+                store.bootstrapPermissionsIfNeeded()
+            }
+        }
+    }
+
+    private var mainTabs: some View {
         TabView {
             NavigationStack {
                 HomeView()

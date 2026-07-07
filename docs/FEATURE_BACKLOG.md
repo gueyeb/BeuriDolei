@@ -31,6 +31,9 @@ Le code contient déjà la structure app, les modèles, le store, le timer, la p
 | BD-011 | done | Fix QA retour accueil et marque | Après complétion, le bouton retour ramène à l'accueil; le header respecte la safe area; l'icône app ne ressemble plus à une posture au sol; splash et marque utilisent une palette cohérente | Livré 2026-07-06 : dismissal explicite depuis `HomeView`, header supprimé pour éviter la Dynamic Island, AppIcon éclair + anneau, LaunchMark/BrandMark transparents sur fond chaud sombre; build + 23 tests OK |
 | BD-012 | done | Valider/invalider un jour en Progression | Depuis l'écran Progression, taper un jour affiche ce qui est prévu (exercice/durée/séries); un jour atteignable non complété peut être validé manuellement; un jour complété peut être invalidé (avec confirmation) | Livré 2026-07-07 par Claude Code (hors boucle Codex) : `ChallengeStore.validateDay`/`invalidateDay`, `DayDetailSheet` remplace `SessionDetailSheet`, build + 28 tests OK, QA manuelle simulateur des 3 états (à venir/atteignable/complété) |
 | BD-013 | done | Splash icon cache fix | Le splash screen affiche l'éclair, pas l'ancien monogramme B, même après cache LaunchScreen iOS | Livré 2026-07-08 : nouvel asset `LaunchBolt` référencé par `LaunchScreen.storyboard` pour casser le cache de `LaunchMark`; assets vérifiés localement, build Xcode bloqué par configuration locale iOS 26.5 |
+| BD-014 | done | Onboarding première ouverture | Un nouvel utilisateur voit 1-3 écrans d'intro (objectif, fonctionnement, permissions) avant le Jour 1; ne réapparaît plus ensuite | Livré 2026-07-08 : `OnboardingView` (TabView paginé) + `UserPreferences.hasCompletedOnboarding`, gate dans `ContentView`; permissions bootstrap déplacé après l'onboarding. Build non vérifié (voir Vérification) |
+| BD-015 | done | Annuler la série en cours | Pendant le timer, un bouton permet de recommencer la série active à zéro sans perdre les séries déjà validées ni abandonner la séance | Livré 2026-07-08 : `TimerSessionState.restartCurrentSerie()` + bouton "arrow.counterclockwise" dans `TimerView`, 1 nouveau test unitaire. Build non vérifié (voir Vérification) |
+| BD-016 | done | Partage/export résultat de séance | Depuis l'écran de complétion, un bouton génère une image récap (jour, temps tenu, streak) partageable via la feuille de partage iOS | Livré 2026-07-08 : `ShareCardView` + `ImageRenderer` + `ShareLink` dans `CompletionView`. Build non vérifié (voir Vérification) |
 
 ## Candidats V2
 
@@ -38,16 +41,15 @@ Le code contient déjà la structure app, les modèles, le store, le timer, la p
 | --- | --- | --- | --- | --- |
 | BD-V2-001 | todo | Durées personnalisées | L'utilisateur peut choisir ou éditer les cibles sans corrompre l'historique courant | Nécessite un plan de migration persistance |
 | BD-V2-002 | todo | Variantes de planche | L'utilisateur peut choisir une variante et la voir enregistrée dans l'historique | Modèle présent; scope produit à décider |
-| BD-V2-003 | todo | Widgets | L'utilisateur peut voir la cible du jour et le streak depuis un widget iOS | Décision App Group nécessaire |
-| BD-V2-004 | todo | Préparation TestFlight | L'app a config release, notes privacy, icônes, screenshots et chemin signing | Travail de distribution |
+| BD-V2-003 | review | Widgets | L'utilisateur peut voir la cible du jour et le streak depuis un widget iOS | Cible `BeuriDoleiWidget` (App Extension) créée 2026-07-08 via `xcodeproj` gem : `WidgetSnapshot` partagé (App Group `group.com.dakhine.BeuriDolei`), `ChallengeStore` pousse un snapshot + `WidgetCenter.reloadTimelines` à chaque `save()`. **Build jamais vérifié** (contrainte disque/runtime, voir Vérification) — à valider avant de passer en `done` |
+| BD-V2-004 | review | Préparation TestFlight | L'app a config release, notes privacy, icônes, screenshots et chemin signing | Audit 2026-07-08 : icônes complètes (18/18), `DEVELOPMENT_TEAM` déjà configuré, `CODE_SIGN_STYLE = Automatic`, `PrivacyInfo.xcprivacy` ajouté (app + widget, raison UserDefaults `1C8F.1`), `ITSAppUsesNonExemptEncryption = NO` ajouté. Reste manuel : App Store Connect record, captures d'écran, TestFlight build upload — nécessite le compte développeur de l'humain |
 
 ## Ordre recommandé avant mise en prod
 
-1. QA device réel USB : valider notifications, HealthKit et haptics hors simulateur.
-2. Réglages interactifs : tester notifications on/off, changement d'heure de rappel et reset du défi.
-3. Onboarding première ouverture : expliquer le défi, le fonctionnement et les permissions en 1-2 écrans.
-4. Widget iOS : afficher jour courant + streak sans ouvrir l'app pour renforcer la rétention.
-5. Partage/export J30 et durées personnalisées : garder pour après premiers retours utilisateur réels.
+1. **Vérifier le build** (BD-014/015/016/V2-003) dès que l'environnement Xcode/disque le permet — aucun de ces changements n'a été compilé, seulement relu manuellement.
+2. QA device réel USB : valider notifications, HealthKit et haptics hors simulateur.
+3. Réglages interactifs : tester notifications on/off, changement d'heure de rappel et reset du défi.
+4. App Store Connect + captures d'écran + upload TestFlight (nécessite le compte développeur).
 
 ## Template feature
 

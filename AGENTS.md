@@ -1,13 +1,14 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-`BeuriDolei/BeuriDolei.xcodeproj` is the Xcode project. App source lives in `BeuriDolei/BeuriDolei/`, which currently contains `BeuriDoleiApp.swift` (entry point), `ContentView.swift` (main screen), `Assets.xcassets/` (icons and colors), and `Preview Content/` for SwiftUI previews. The codebase is intentionally small; when adding features, keep the MVVM direction from `README.md` by grouping new files into folders such as `Views/`, `ViewModels/`, `Models/`, and `Services/` inside the app target.
+`BeuriDolei/BeuriDolei.xcodeproj` is the Xcode project, with two targets: `BeuriDolei` (the app, in `BeuriDolei/BeuriDolei/`) and `BeuriDoleiWidget` (Widget Extension, in `BeuriDolei/BeuriDoleiWidget/`), plus the `BeuriDoleiTests` unit test target. App source contains `BeuriDoleiApp.swift` (entry point), `ContentView.swift` (main screen, gates onboarding), `Views/`, `Models/`, `Store/`, `Services/`, `Shared/` (files used by both the app and the widget, e.g. `WidgetSnapshot.swift`), `Assets.xcassets/`, and `Preview Content/`. The widget and the app share state through the App Group `group.com.dakhine.BeuriDolei`. The codebase is intentionally small; when adding features, keep the MVVM direction from `README.md` by grouping new files into folders such as `Views/`, `ViewModels/`, `Models/`, and `Services/` inside the app target.
 
 ## Build, Test, and Development Commands
 Open the project in Xcode with `open BeuriDolei/BeuriDolei.xcodeproj`.
 Build from the command line with `xcodebuild -project BeuriDolei/BeuriDolei.xcodeproj -scheme BeuriDolei -configuration Debug -destination 'platform=iOS Simulator,name=iPhone 17' build`.
 List schemes and build settings with `xcodebuild -project BeuriDolei/BeuriDolei.xcodeproj -list`.
 Run unit tests with `xcodebuild test -project BeuriDolei/BeuriDolei.xcodeproj -scheme BeuriDolei -configuration Debug -destination 'platform=iOS Simulator,name=iPhone 17'`.
+The `BeuriDoleiWidget` target was added on 2026-07-08 by editing `project.pbxproj` programmatically with the Ruby `xcodeproj` gem (not Xcode's GUI) — if it ever needs another target-level change, prefer that gem over hand-editing `project.pbxproj` text.
 
 ## Feature Implementation Loop
 Use `docs/IMPLEMENTATION_LOOP.md` as the execution workflow for non-trivial feature work. Use `PRD.md` for product intent, `docs/FEATURE_BACKLOG.md` for feature status and acceptance criteria, and `docs/HANDOVER.md` for current session state between Human, Claude Code, and Codex.

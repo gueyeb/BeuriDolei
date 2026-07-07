@@ -7,54 +7,46 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		026BF3FD3A5B1B83B549FDE0 /* WidgetSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95FC58F80C51DD2A6D2410C /* WidgetSnapshot.swift */; };
 		0861CCCF8F4D4C3384E6981C /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6B8B188B9741FCB868840F /* UserPreferences.swift */; };
 		0A910E8B4FA744A694317D2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27E1C6C2209D44B288B629B4 /* Assets.xcassets */; };
+		289A97FD03AD606D7068B91C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A916B8F905967B22EA5ECC /* WidgetKit.framework */; };
 		2FEDF40156804FC0B1AF7CBE /* BeuriDoleiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7575EC181F04897926AE716 /* BeuriDoleiApp.swift */; };
 		33AE898EB2814D9F9EC539F4 /* PlankSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840A7C295A444944A703E53C /* PlankSession.swift */; };
 		384DBFF4C88B4739B7331A9C /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02305B96962849F58FDEE725 /* HealthKitManager.swift */; };
 		446CC179EC4A4660A6BF5BA7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE27CC3B7E441984A2BF6A /* HomeView.swift */; };
 		47A4D9087F5542FB8C2D3B1F /* PlankVariantIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A4D9087F5542FB8C2D3B1E /* PlankVariantIcon.swift */; };
 		4BFA586D6821405FB0AA7DBB /* CompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD179BAA0F09472193DD44A1 /* CompletionView.swift */; };
+		4DDB80634211E91361000090 /* BeuriDoleiWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5A010C24C39EA831596653 /* BeuriDoleiWidgetBundle.swift */; };
+		54ECEB8D62E9C42B1C70F3F1 /* BeuriDoleiWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2407057A3A9AFD2777FE1725 /* BeuriDoleiWidget.swift */; };
 		5ED6D908F4C5427FAB0A9F58 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22360DC803A04FA3B9E0473D /* ContentView.swift */; };
 		60AD428DED2C47CCAF0BFBD7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA4FC02262B4B40B1AAFE27 /* SettingsView.swift */; };
 		8A4E5F7C31AA4A4C9E123456 /* PlankVariant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4E5F7C31AA4A4C9E123455 /* PlankVariant.swift */; };
+		8A7D01CC020720630B5CE313 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A70B339D76E35E192E670E0 /* OnboardingView.swift */; };
+		96174036602A0CAA88DFDAC1 /* WidgetSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95FC58F80C51DD2A6D2410C /* WidgetSnapshot.swift */; };
+		9C48AF3EE120450E81452A48 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A23B7E0BDB40B89D6487AB /* NotificationManager.swift */; };
+		9F1918AE0AC6434C900EE157 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B16121ABC0488FAFB5FDF4 /* ProgressView.swift */; };
+		AEC6A5060A07C5AC3078052F /* ShareCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036B538C24231ED3AF5C27F4 /* ShareCardView.swift */; };
 		B00600000000000000000001 /* ChallengeStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00600000000000000000003 /* ChallengeStoreTests.swift */; };
-			9C48AF3EE120450E81452A48 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A23B7E0BDB40B89D6487AB /* NotificationManager.swift */; };
-			9F1918AE0AC6434C900EE157 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B16121ABC0488FAFB5FDF4 /* ProgressView.swift */; };
-			A1B2C3D4E5F60718293A4B5C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5D /* LaunchScreen.storyboard */; };
-			DD6DD9111ADF466E8124A83E /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1F17BCFECA4B64B476C56B /* TimerView.swift */; };
-			DFA35993BA6E42008D0EB082 /* ChallengeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADF288084064C73AB227455 /* ChallengeStore.swift */; };
-			E88D7B7C7DD74A439C622BBD /* ChallengeDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC87BB60894A38BA52A803 /* ChallengeDay.swift */; };
+		BE6F273B9B599084C8C006E4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66465C25B65753C82D4DFE08 /* Foundation.framework */; };
+		C09BCFFFEA7D9518EC33747B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = ED21E01426DBD27273CD3C47 /* PrivacyInfo.xcprivacy */; };
+		D00F7C219B72519F1C1A9B4F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A342C5C878F40AFB4B2FFEA0 /* PrivacyInfo.xcprivacy */; };
+		DAA96B13D9B5196213A2A7C2 /* BeuriDoleiWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6DDA7E56AE12E3B5A80A5951 /* BeuriDoleiWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		DD6DD9111ADF466E8124A83E /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1F17BCFECA4B64B476C56B /* TimerView.swift */; };
+		DFA35993BA6E42008D0EB082 /* ChallengeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADF288084064C73AB227455 /* ChallengeStore.swift */; };
+		E88D7B7C7DD74A439C622BBD /* ChallengeDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC87BB60894A38BA52A803 /* ChallengeDay.swift */; };
 		E9D20ADD5E0D4018AFEED60F /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CD40E3155884346B603FECF /* HealthKit.framework */; };
 		F011FE3500F64EB4B4DF8B84 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 497B7FEBE05E41A7ACB89DB8 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXFileReference section */
-		02305B96962849F58FDEE725 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
-		1B2F4EF8C24440BD827D60CD /* BeuriDolei.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeuriDolei.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		22360DC803A04FA3B9E0473D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		27E1C6C2209D44B288B629B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		28A23B7E0BDB40B89D6487AB /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
-		32DC87BB60894A38BA52A803 /* ChallengeDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDay.swift; sourceTree = "<group>"; };
-		47A4D9087F5542FB8C2D3B1E /* PlankVariantIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlankVariantIcon.swift; sourceTree = "<group>"; };
-		497B7FEBE05E41A7ACB89DB8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		5A6B8B188B9741FCB868840F /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
-		6ADF288084064C73AB227455 /* ChallengeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStore.swift; sourceTree = "<group>"; };
-		840A7C295A444944A703E53C /* PlankSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlankSession.swift; sourceTree = "<group>"; };
-		8A4E5F7C31AA4A4C9E123455 /* PlankVariant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlankVariant.swift; sourceTree = "<group>"; };
-		8BFE27CC3B7E441984A2BF6A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		B00600000000000000000002 /* BeuriDoleiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeuriDoleiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B00600000000000000000003 /* ChallengeStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStoreTests.swift; sourceTree = "<group>"; };
-			8D1F17BCFECA4B64B476C56B /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
-			99B16121ABC0488FAFB5FDF4 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
-			9CD40E3155884346B603FECF /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
-			A1B2C3D4E5F60718293A4B5D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-			B7575EC181F04897926AE716 /* BeuriDoleiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeuriDoleiApp.swift; sourceTree = "<group>"; };
-			BCA4FC02262B4B40B1AAFE27 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-			BD179BAA0F09472193DD44A1 /* CompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionView.swift; sourceTree = "<group>"; };
-/* End PBXFileReference section */
-
 /* Begin PBXContainerItemProxy section */
+		76D03152C6AF2E39ADEB806A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 13A2DDF144C049DDA0E91D9E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 33DAB58C1FE94496F906FBB7;
+			remoteInfo = BeuriDoleiWidget;
+		};
 		B0060000000000000000000B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 13A2DDF144C049DDA0E91D9E /* Project object */;
@@ -64,7 +56,67 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		B22418E16680591124D4878F /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				DAA96B13D9B5196213A2A7C2 /* BeuriDoleiWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		02305B96962849F58FDEE725 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		036B538C24231ED3AF5C27F4 /* ShareCardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ShareCardView.swift; sourceTree = "<group>"; };
+		0D52C94B558CFF05CF0E32B3 /* BeuriDoleiWidget.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = BeuriDoleiWidget.entitlements; sourceTree = "<group>"; };
+		1B2F4EF8C24440BD827D60CD /* BeuriDolei.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeuriDolei.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		22360DC803A04FA3B9E0473D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		2407057A3A9AFD2777FE1725 /* BeuriDoleiWidget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BeuriDoleiWidget.swift; sourceTree = "<group>"; };
+		27E1C6C2209D44B288B629B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		28A23B7E0BDB40B89D6487AB /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		32DC87BB60894A38BA52A803 /* ChallengeDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDay.swift; sourceTree = "<group>"; };
+		47A4D9087F5542FB8C2D3B1E /* PlankVariantIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlankVariantIcon.swift; sourceTree = "<group>"; };
+		497B7FEBE05E41A7ACB89DB8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		5A6B8B188B9741FCB868840F /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		5C5A010C24C39EA831596653 /* BeuriDoleiWidgetBundle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BeuriDoleiWidgetBundle.swift; sourceTree = "<group>"; };
+		66465C25B65753C82D4DFE08 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		66A916B8F905967B22EA5ECC /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = "<group>"; };
+		6ADF288084064C73AB227455 /* ChallengeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStore.swift; sourceTree = "<group>"; };
+		6DDA7E56AE12E3B5A80A5951 /* BeuriDoleiWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BeuriDoleiWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		840A7C295A444944A703E53C /* PlankSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlankSession.swift; sourceTree = "<group>"; };
+		8A4E5F7C31AA4A4C9E123455 /* PlankVariant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlankVariant.swift; sourceTree = "<group>"; };
+		8BFE27CC3B7E441984A2BF6A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		8D1F17BCFECA4B64B476C56B /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
+		99B16121ABC0488FAFB5FDF4 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		9A70B339D76E35E192E670E0 /* OnboardingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		9CD40E3155884346B603FECF /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		A1B2C3D4E5F60718293A4B5D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A342C5C878F40AFB4B2FFEA0 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		B00600000000000000000002 /* BeuriDoleiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeuriDoleiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B00600000000000000000003 /* ChallengeStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStoreTests.swift; sourceTree = "<group>"; };
+		B7575EC181F04897926AE716 /* BeuriDoleiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeuriDoleiApp.swift; sourceTree = "<group>"; };
+		BCA4FC02262B4B40B1AAFE27 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		BD179BAA0F09472193DD44A1 /* CompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionView.swift; sourceTree = "<group>"; };
+		E11197A2B9B7AE0ACE5C2515 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E95FC58F80C51DD2A6D2410C /* WidgetSnapshot.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WidgetSnapshot.swift; sourceTree = "<group>"; };
+		ED21E01426DBD27273CD3C47 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		55337F2772B5CFED8C8BB33E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE6F273B9B599084C8C006E4 /* Foundation.framework in Frameworks */,
+				289A97FD03AD606D7068B91C /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B00600000000000000000004 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -92,8 +144,19 @@
 				99B16121ABC0488FAFB5FDF4 /* ProgressView.swift */,
 				BCA4FC02262B4B40B1AAFE27 /* SettingsView.swift */,
 				47A4D9087F5542FB8C2D3B1E /* PlankVariantIcon.swift */,
+				9A70B339D76E35E192E670E0 /* OnboardingView.swift */,
+				036B538C24231ED3AF5C27F4 /* ShareCardView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		1570589C31C14ABE965275FF /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				E95FC58F80C51DD2A6D2410C /* WidgetSnapshot.swift */,
+			);
+			name = Shared;
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		1A22715A2FC1122E00712A70 /* Recovered References */ = {
@@ -110,6 +173,23 @@
 				497B7FEBE05E41A7ACB89DB8 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		466879CE22FEE9A5D8D79B17 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4E8A7F80E6F18E7983661274 /* iOS */,
+				66A916B8F905967B22EA5ECC /* WidgetKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4E8A7F80E6F18E7983661274 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				66465C25B65753C82D4DFE08 /* Foundation.framework */,
+			);
+			name = iOS;
 			sourceTree = "<group>";
 		};
 		67AB3F6791A24AB9914F497F /* Models */ = {
@@ -133,16 +213,18 @@
 		};
 		7B36E1E094E743499FD89F0D /* BeuriDolei */ = {
 			isa = PBXGroup;
-				children = (
-					B7575EC181F04897926AE716 /* BeuriDoleiApp.swift */,
-					22360DC803A04FA3B9E0473D /* ContentView.swift */,
-					A1B2C3D4E5F60718293A4B5D /* LaunchScreen.storyboard */,
-					67AB3F6791A24AB9914F497F /* Models */,
-					69EDE98CA9D7444E9ACD50B5 /* Store */,
-					D73C9424DE9A48F8AA99DC50 /* Services */,
+			children = (
+				B7575EC181F04897926AE716 /* BeuriDoleiApp.swift */,
+				22360DC803A04FA3B9E0473D /* ContentView.swift */,
+				A1B2C3D4E5F60718293A4B5D /* LaunchScreen.storyboard */,
+				67AB3F6791A24AB9914F497F /* Models */,
+				69EDE98CA9D7444E9ACD50B5 /* Store */,
+				D73C9424DE9A48F8AA99DC50 /* Services */,
 				13E33B4D1600436997B21C22 /* Views */,
 				27E1C6C2209D44B288B629B4 /* Assets.xcassets */,
 				374EA306A4ED41A48CD31468 /* Preview Content */,
+				1570589C31C14ABE965275FF /* Shared */,
+				ED21E01426DBD27273CD3C47 /* PrivacyInfo.xcprivacy */,
 			);
 			path = BeuriDolei;
 			sourceTree = "<group>";
@@ -152,8 +234,22 @@
 			children = (
 				1B2F4EF8C24440BD827D60CD /* BeuriDolei.app */,
 				B00600000000000000000002 /* BeuriDoleiTests.xctest */,
+				6DDA7E56AE12E3B5A80A5951 /* BeuriDoleiWidget.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		923AE0C1CEF38F9FAD768556 /* BeuriDoleiWidget */ = {
+			isa = PBXGroup;
+			children = (
+				5C5A010C24C39EA831596653 /* BeuriDoleiWidgetBundle.swift */,
+				2407057A3A9AFD2777FE1725 /* BeuriDoleiWidget.swift */,
+				0D52C94B558CFF05CF0E32B3 /* BeuriDoleiWidget.entitlements */,
+				E11197A2B9B7AE0ACE5C2515 /* Info.plist */,
+				A342C5C878F40AFB4B2FFEA0 /* PrivacyInfo.xcprivacy */,
+			);
+			name = BeuriDoleiWidget;
+			path = BeuriDoleiWidget;
 			sourceTree = "<group>";
 		};
 		B00600000000000000000006 /* BeuriDoleiTests */ = {
@@ -171,6 +267,8 @@
 				B00600000000000000000006 /* BeuriDoleiTests */,
 				915BD39C92EC4966A3EB5A3B /* Products */,
 				1A22715A2FC1122E00712A70 /* Recovered References */,
+				466879CE22FEE9A5D8D79B17 /* Frameworks */,
+				923AE0C1CEF38F9FAD768556 /* BeuriDoleiWidget */,
 			);
 			sourceTree = "<group>";
 		};
@@ -186,6 +284,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		33DAB58C1FE94496F906FBB7 /* BeuriDoleiWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 400A510BCAC74D2C0D4580B8 /* Build configuration list for PBXNativeTarget "BeuriDoleiWidget" */;
+			buildPhases = (
+				8A1BBDF7B4108D417156253C /* Sources */,
+				55337F2772B5CFED8C8BB33E /* Frameworks */,
+				C6CCF889FDB07F97C840DD90 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BeuriDoleiWidget;
+			productName = BeuriDoleiWidget;
+			productReference = 6DDA7E56AE12E3B5A80A5951 /* BeuriDoleiWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		B00600000000000000000007 /* BeuriDoleiTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B0060000000000000000000A /* Build configuration list for PBXNativeTarget "BeuriDoleiTests" */;
@@ -210,10 +325,12 @@
 				D475E342B16B49F4A1FBDFFA /* Sources */,
 				5212B873AC4947228801CEC3 /* Resources */,
 				C538460633134BF6BBFEB525 /* Frameworks */,
+				B22418E16680591124D4878F /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				215CF1B0B8F96DF1BEAAEE9A /* PBXTargetDependency */,
 			);
 			name = BeuriDolei;
 			productName = BeuriDolei;
@@ -254,6 +371,7 @@
 			targets = (
 				DAAFC30E37F4414D8EA883E4 /* BeuriDolei */,
 				B00600000000000000000007 /* BeuriDoleiTests */,
+				33DAB58C1FE94496F906FBB7 /* BeuriDoleiWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -261,16 +379,35 @@
 /* Begin PBXResourcesBuildPhase section */
 		5212B873AC4947228801CEC3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-				buildActionMask = 2147483647;
-				files = (
-					F011FE3500F64EB4B4DF8B84 /* Preview Assets.xcassets in Resources */,
-					0A910E8B4FA744A694317D2F /* Assets.xcassets in Resources */,
-				);
+			buildActionMask = 2147483647;
+			files = (
+				F011FE3500F64EB4B4DF8B84 /* Preview Assets.xcassets in Resources */,
+				0A910E8B4FA744A694317D2F /* Assets.xcassets in Resources */,
+				C09BCFFFEA7D9518EC33747B /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6CCF889FDB07F97C840DD90 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D00F7C219B72519F1C1A9B4F /* PrivacyInfo.xcprivacy in Resources */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8A1BBDF7B4108D417156253C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4DDB80634211E91361000090 /* BeuriDoleiWidgetBundle.swift in Sources */,
+				54ECEB8D62E9C42B1C70F3F1 /* BeuriDoleiWidget.swift in Sources */,
+				026BF3FD3A5B1B83B549FDE0 /* WidgetSnapshot.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B00600000000000000000005 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -298,12 +435,21 @@
 				9C48AF3EE120450E81452A48 /* NotificationManager.swift in Sources */,
 				384DBFF4C88B4739B7331A9C /* HealthKitManager.swift in Sources */,
 				60AD428DED2C47CCAF0BFBD7 /* SettingsView.swift in Sources */,
+				8A7D01CC020720630B5CE313 /* OnboardingView.swift in Sources */,
+				AEC6A5060A07C5AC3078052F /* ShareCardView.swift in Sources */,
+				96174036602A0CAA88DFDAC1 /* WidgetSnapshot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		215CF1B0B8F96DF1BEAAEE9A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = BeuriDoleiWidget;
+			target = 33DAB58C1FE94496F906FBB7 /* BeuriDoleiWidget */;
+			targetProxy = 76D03152C6AF2E39ADEB806A /* PBXContainerItemProxy */;
+		};
 		B0060000000000000000000C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DAAFC30E37F4414D8EA883E4 /* BeuriDolei */;
@@ -312,53 +458,25 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		B00600000000000000000008 /* Debug */ = {
+		18921E2F1A8CB871073933AD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = BeuriDoleiWidget/BeuriDoleiWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3N9HH8Z8QD;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = BeuriDoleiWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dakhine.BeuriDoleiTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dakhine.BeuriDolei.Widget;
+				PRODUCT_NAME = BeuriDoleiWidget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BeuriDolei.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BeuriDolei";
 			};
 			name = Debug;
-		};
-		B00600000000000000000009 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3N9HH8Z8QD;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dakhine.BeuriDoleiTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BeuriDolei.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BeuriDolei";
-			};
-			name = Release;
 		};
 		260B30C777334B9FBABBA5E4 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -371,13 +489,14 @@
 				DEVELOPMENT_ASSET_PATHS = "\"BeuriDolei/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "BeuriDolei enregistre vos séances de planche dans Santé.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "BeuriDolei enregistre vos séances de planche dans Santé.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-					INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-					INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-					INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -457,6 +576,27 @@
 			};
 			name = Debug;
 		};
+		7866E66E871C29816B9685C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = BeuriDoleiWidget/BeuriDoleiWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = BeuriDoleiWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dakhine.BeuriDolei.Widget;
+				PRODUCT_NAME = BeuriDoleiWidget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		80C67B9E52C74868BCE72FC1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -514,6 +654,54 @@
 			};
 			name = Release;
 		};
+		B00600000000000000000008 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3N9HH8Z8QD;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dakhine.BeuriDoleiTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BeuriDolei.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BeuriDolei";
+			};
+			name = Debug;
+		};
+		B00600000000000000000009 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3N9HH8Z8QD;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dakhine.BeuriDoleiTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BeuriDolei.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BeuriDolei";
+			};
+			name = Release;
+		};
 		CEC3A0EAD3C1489EA96021D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -525,13 +713,14 @@
 				DEVELOPMENT_ASSET_PATHS = "\"BeuriDolei/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "BeuriDolei enregistre vos séances de planche dans Santé.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "BeuriDolei enregistre vos séances de planche dans Santé.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-					INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-					INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-					INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -549,6 +738,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		400A510BCAC74D2C0D4580B8 /* Build configuration list for PBXNativeTarget "BeuriDoleiWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7866E66E871C29816B9685C9 /* Release */,
+				18921E2F1A8CB871073933AD /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A1198394751D4C35BC50FF77 /* Build configuration list for PBXNativeTarget "BeuriDolei" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

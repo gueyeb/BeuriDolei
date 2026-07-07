@@ -367,6 +367,25 @@ final class ChallengeStoreTests: XCTestCase {
         XCTAssertEqual(state.completedSeriesForSession(), [0, 0])
     }
 
+    func testRestartCurrentSerieResetsElapsedWithoutLosingCompletedSeries() {
+        var state = TimerSessionState(targetSeries: [2, 2])
+        state.start()
+        _ = state.tick()
+        XCTAssertEqual(state.tick(), .serieCompleted)
+
+        state.start()
+        _ = state.tick()
+        XCTAssertEqual(state.elapsed, 1)
+
+        state.restartCurrentSerie()
+
+        XCTAssertEqual(state.elapsed, 0)
+        XCTAssertTrue(state.isRunning)
+        XCTAssertFalse(state.isPaused)
+        XCTAssertEqual(state.currentSerieIndex, 1)
+        XCTAssertEqual(state.seriesCompleted, [2])
+    }
+
     func testApplyNotificationPreferencesSchedulesDailyReminderWhenEnabled() {
         let scheduler = FakeNotificationScheduler()
         let store = makeStore(notificationScheduler: scheduler)
