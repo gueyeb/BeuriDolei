@@ -3,26 +3,28 @@ import SwiftUI
 struct TimerView: View {
     let day: ChallengeDay
     let variant: PlankVariant
+    let onFinish: (() -> Void)?
 
     @EnvironmentObject var store: ChallengeStore
     @Environment(\.dismiss) private var dismiss
 
-    @State private var currentSerieIndex = 0
-    @State private var elapsed: Int = 0
-    @State private var isRunning = false
-    @State private var isPaused = false
-    @State private var seriesCompleted: [Int] = []
+    @State private var timerState: TimerSessionState
     @State private var sessionStartedAt: Date = Date()
     @State private var timer: Timer?
     @State private var showAbandonAlert = false
     @State private var navigateToCompletion = false
 
-    private var target: Int { day.series[currentSerieIndex] }
-    private var remaining: Int { max(target - elapsed, 0) }
-    private var ringProgress: Double { min(Double(elapsed) / Double(target), 1.0) }
-    private var isLastSerie: Bool { currentSerieIndex == day.series.count - 1 }
-    private var hasStartedCurrentSerie: Bool { elapsed > 0 || isRunning || isPaused }
-    private var hasStartedSession: Bool { !seriesCompleted.isEmpty || hasStartedCurrentSerie }
+    init(day: ChallengeDay, variant: PlankVariant, onFinish: (() -> Void)? = nil) {
+        self.day = day
+        self.variant = variant
+        self.onFinish = onFinish
+        _timerState = State(initialValue: TimerSessionState(targetSeries: day.series))
+    }
+
+    private var target: Int { timerState.currentTarget }
+    private var remaining: Int { timerState.remaining }
+    private var ringProgress: Double { timerState.progress }
+    private var hasStartedSession: Bool { timerState.hasStartedSession }
 
     var body: some View {
         ZStack {
@@ -49,7 +51,7 @@ struct TimerView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    if isRunning || isPaused {
+                    if timerState.isRunning || timerState.isPaused {
                         showAbandonAlert = true
                     } else {
                         dismiss()
@@ -68,7 +70,7 @@ struct TimerView: View {
         .navigationDestination(isPresented: $navigateToCompletion) {
             CompletionView(
                 session: buildSession(),
-                onDone: { dismiss() }
+                onDone: returnToHome
             )
         }
     }
@@ -80,15 +82,15 @@ struct TimerView: View {
             ForEach(0..<day.series.count, id: \.self) { i in
                 Capsule()
                     .fill(pillColor(for: i))
-                    .frame(width: i == currentSerieIndex ? 44 : 28, height: 8)
-                    .animation(.spring(duration: 0.3), value: currentSerieIndex)
+                    .frame(width: i == timerState.currentSerieIndex ? 44 : 28, height: 8)
+                    .animation(.spring(duration: 0.3), value: timerState.currentSerieIndex)
             }
         }
     }
 
     private func pillColor(for index: Int) -> Color {
-        if index < currentSerieIndex { return .white }
-        if index == currentSerieIndex { return .white }
+        if index < timerState.currentSerieIndex { return .white }
+        if index == timerState.currentSerieIndex { return .white }
         return .white.opacity(0.3)
     }
 
@@ -117,11 +119,15 @@ struct TimerView: View {
                         .foregroundStyle(.white)
                         .contentTransition(.numericText(countsDown: true))
 
-                    Text("série \(currentSerieIndex + 1) / \(day.series.count)")
+                    Text("série \(timerState.currentSerieIndex + 1) / \(day.series.count)")
                         .font(.subheadline.weight(.medium))
                         .foregroundStyle(.white.opacity(0.7))
 
-                    Label(variant.title, systemImage: variant.systemImage)
+                    HStack(spacing: 6) {
+                        PlankVariantIcon(variant: variant, isAnimated: timerState.isRunning)
+                            .frame(width: 18, height: 18)
+                        Text("Planche classique")
+                    }
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(.white.opacity(0.75))
                 }
@@ -134,12 +140,12 @@ struct TimerView: View {
 
     @ViewBuilder
     private var bottomBar: some View {
-        if isRunning || isPaused {
+        if timerState.isRunning || timerState.isPaused {
             HStack(spacing: 16) {
                 Button {
-                    isPaused ? resumeTimer() : pauseTimer()
+                    timerState.isPaused ? resumeTimer() : pauseTimer()
                 } label: {
-                    Image(systemName: isPaused ? "play.fill" : "pause.fill")
+                    Image(systemName: timerState.isPaused ? "play.fill" : "pause.fill")
                         .font(.title2)
                         .foregroundStyle(.white)
                         .frame(width: 60, height: 60)
@@ -176,12 +182,12 @@ struct TimerView: View {
     }
 
     private var ctaLabel: String {
-        hasStartedSession ? "DÉMARRER SÉRIE \(currentSerieIndex + 1)" : "DÉMARRER"
+        hasStartedSession ? "DÉMARRER SÉRIE \(timerState.currentSerieIndex + 1)" : "DÉMARRER"
     }
 
     private var statusLabel: String {
-        if isRunning { return "EN COURS" }
-        if isPaused { return "PAUSE" }
+        if timerState.isRunning { return "EN COURS" }
+        if timerState.isPaused { return "PAUSE" }
         if hasStartedSession { return "PRÊT" }
         return "À FAIRE"
     }
@@ -203,23 +209,20 @@ struct TimerView: View {
     // MARK: - Timer logic
 
     private func startTimer() {
-        if seriesCompleted.isEmpty && !hasStartedCurrentSerie {
+        if timerState.shouldStartNewSession {
             sessionStartedAt = Date()
         }
-        isRunning = true
-        isPaused = false
+        timerState.start()
         startTick()
     }
 
     private func pauseTimer() {
-        isPaused = true
-        isRunning = false
+        timerState.pause()
         timer?.invalidate()
     }
 
     private func resumeTimer() {
-        isPaused = false
-        isRunning = true
+        timerState.resume()
         startTick()
     }
 
@@ -227,31 +230,25 @@ struct TimerView: View {
         timer?.invalidate()
         let hapticsEnabled = store.preferences.hapticsEnabled
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            elapsed += 1
-            if hapticsEnabled && elapsed % 10 == 0 {
+            let result = timerState.tick()
+            if hapticsEnabled && timerState.elapsed % 10 == 0 {
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
             }
-            if elapsed >= target {
-                completeSerie()
+            if result == .serieCompleted {
+                handleSerieCompletion()
             }
         }
     }
 
-    private func completeSerie() {
+    private func handleSerieCompletion() {
         timer?.invalidate()
-        isRunning = false
-        isPaused = false
-        seriesCompleted.append(min(elapsed, target))
 
-        if isLastSerie {
+        if timerState.isComplete {
             UINotificationFeedbackGenerator().notificationOccurred(.success)
             store.completeSession(buildSession())
             navigateToCompletion = true
         } else {
-            // Next serie
             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-            currentSerieIndex += 1
-            elapsed = 0
         }
     }
 
@@ -261,22 +258,30 @@ struct TimerView: View {
 
     private func abandonSession() {
         timer?.invalidate()
-        isRunning = false
-        isPaused = false
+        timerState.abandon()
         dismiss()
     }
 
+    private func returnToHome() {
+        timer?.invalidate()
+        navigateToCompletion = false
+        DispatchQueue.main.async {
+            if let onFinish {
+                onFinish()
+            } else {
+                dismiss()
+            }
+        }
+    }
+
     private func buildSession() -> PlankSession {
-        let allCompleted = seriesCompleted.count == day.series.count
-            ? seriesCompleted
-            : seriesCompleted + Array(repeating: 0, count: day.series.count - seriesCompleted.count)
         return PlankSession(
             id: UUID(),
             dayIndex: day.dayIndex,
             variant: variant,
             startedAt: sessionStartedAt,
             endedAt: Date(),
-            seriesCompleted: allCompleted,
+            seriesCompleted: timerState.completedSeriesForSession(),
             targetSeries: day.series
         )
     }
@@ -295,6 +300,106 @@ struct TimerView: View {
         let green = start.1 + (end.1 - start.1) * clamped
         let blue = start.2 + (end.2 - start.2) * clamped
         return Color(red: red, green: green, blue: blue)
+    }
+}
+
+struct TimerSessionState: Equatable {
+    enum TickResult {
+        case inProgress
+        case serieCompleted
+    }
+
+    let targetSeries: [Int]
+    private(set) var currentSerieIndex = 0
+    private(set) var elapsed = 0
+    private(set) var isRunning = false
+    private(set) var isPaused = false
+    private(set) var seriesCompleted: [Int] = []
+    private(set) var isAbandoned = false
+
+    var currentTarget: Int {
+        targetSeries[currentSerieIndex]
+    }
+
+    var remaining: Int {
+        max(currentTarget - elapsed, 0)
+    }
+
+    var progress: Double {
+        min(Double(elapsed) / Double(currentTarget), 1.0)
+    }
+
+    var isLastSerie: Bool {
+        currentSerieIndex == targetSeries.count - 1
+    }
+
+    var hasStartedCurrentSerie: Bool {
+        elapsed > 0 || isRunning || isPaused
+    }
+
+    var hasStartedSession: Bool {
+        !seriesCompleted.isEmpty || hasStartedCurrentSerie
+    }
+
+    var shouldStartNewSession: Bool {
+        seriesCompleted.isEmpty && !hasStartedCurrentSerie
+    }
+
+    var isComplete: Bool {
+        seriesCompleted.count == targetSeries.count
+    }
+
+    mutating func start() {
+        isRunning = true
+        isPaused = false
+        isAbandoned = false
+    }
+
+    mutating func pause() {
+        guard isRunning else { return }
+        isRunning = false
+        isPaused = true
+    }
+
+    mutating func resume() {
+        guard isPaused else { return }
+        isPaused = false
+        isRunning = true
+    }
+
+    mutating func tick() -> TickResult {
+        guard isRunning, !isComplete else { return .inProgress }
+
+        elapsed += 1
+        guard elapsed >= currentTarget else { return .inProgress }
+
+        seriesCompleted.append(min(elapsed, currentTarget))
+        isRunning = false
+        isPaused = false
+
+        if !isLastSerie {
+            currentSerieIndex += 1
+            elapsed = 0
+        }
+
+        return .serieCompleted
+    }
+
+    mutating func abandon() {
+        isRunning = false
+        isPaused = false
+        isAbandoned = true
+    }
+
+    func completedSeriesForSession() -> [Int] {
+        if seriesCompleted.count == targetSeries.count {
+            return seriesCompleted
+        }
+
+        return seriesCompleted + Array(
+            repeating: 0,
+            count: targetSeries.count - seriesCompleted.count
+        )
     }
 }
 

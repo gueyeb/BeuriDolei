@@ -6,7 +6,7 @@ struct ContentView: View {
             NavigationStack {
                 HomeView()
             }
-            .tabItem { Label("Séance", systemImage: "figure.core.training") }
+            .tabItem { Label("Séance", systemImage: "target") }
 
             NavigationStack {
                 ChallengeProgressView()

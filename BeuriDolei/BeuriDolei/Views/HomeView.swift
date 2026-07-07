@@ -6,7 +6,7 @@ struct HomeView: View {
 
     private var day: ChallengeDay { store.currentDay }
     private var nextDay: ChallengeDay? { store.nextDay }
-    private var selectedVariant: PlankVariant { store.preferences.preferredVariant }
+    private var selectedVariant: PlankVariant { store.currentVariant }
     private var progress: Double {
         Double(store.currentDayIndex + (store.isTodayCompleted ? 1 : 0)) / Double(ChallengeDay.totalDays)
     }
@@ -14,53 +14,34 @@ struct HomeView: View {
     var body: some View {
         ZStack {
             LinearGradient(
-                colors: [Color.black, Color(red: 0.12, green: 0.08, blue: 0.03)],
+                colors: [
+                    Color(red: 0.06, green: 0.04, blue: 0.02),
+                    Color(red: 0.13, green: 0.07, blue: 0.02),
+                ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
 
             VStack(spacing: 0) {
-                topBar
-                Spacer()
+                Color.clear
+                    .frame(height: 48)
                 progressRing
-                Spacer()
+                Spacer(minLength: 20)
                 objectiveCard
                     .padding(.bottom, 20)
-                variantSelector
+                postureGuide
                     .padding(.bottom, 20)
                 seriesCard
                 actionButton
-                    .padding(.bottom, 48)
+                    .padding(.bottom, 32)
             }
         }
         .navigationDestination(isPresented: $navigateToTimer) {
-            TimerView(day: day, variant: selectedVariant)
+            TimerView(day: day, variant: selectedVariant) {
+                navigateToTimer = false
+            }
         }
-    }
-
-    // MARK: - Top bar
-
-    private var topBar: some View {
-        HStack {
-            Spacer()
-            streakBadge
-        }
-        .padding(.horizontal, 24)
-        .padding(.top, 16)
-    }
-
-    private var streakBadge: some View {
-        HStack(spacing: 4) {
-            Image(systemName: "flame.fill")
-                .foregroundStyle(.orange)
-            Text("\(store.streak)")
-                .font(.headline.weight(.bold))
-                .foregroundStyle(.white)
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 6)
-        .background(.white.opacity(0.08), in: Capsule())
     }
 
     // MARK: - Progress ring
@@ -94,9 +75,23 @@ struct HomeView: View {
                 Text("sur \(ChallengeDay.totalDays)")
                     .font(.subheadline.weight(.medium))
                     .foregroundStyle(.white.opacity(0.72))
+                streakBadge
             }
         }
         .frame(width: 220, height: 220)
+    }
+
+    private var streakBadge: some View {
+        HStack(spacing: 5) {
+            Image(systemName: "flame.fill")
+                .foregroundStyle(.orange)
+            Text("\(store.streak) \(store.streak > 1 ? "jours" : "jour")")
+                .font(.caption.weight(.bold))
+                .foregroundStyle(.white)
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .background(.white.opacity(0.10), in: Capsule())
     }
 
     private var objectiveCard: some View {
@@ -111,7 +106,11 @@ struct HomeView: View {
             Text(day.series.map(formatted).joined(separator: " · "))
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(.white.opacity(0.72))
-            Label(selectedVariant.title, systemImage: selectedVariant.systemImage)
+            HStack(spacing: 6) {
+                PlankVariantIcon(variant: selectedVariant)
+                    .frame(width: 16, height: 16)
+                Text("Planche classique")
+            }
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.orange)
         }
@@ -121,32 +120,32 @@ struct HomeView: View {
         .padding(.horizontal, 24)
     }
 
-    private var variantSelector: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 10) {
-                ForEach(PlankVariant.allCases) { variant in
-                    Button {
-                        store.preferences.preferredVariant = variant
-                        store.savePreferences()
-                    } label: {
-                        VStack(spacing: 6) {
-                            Image(systemName: variant.systemImage)
-                                .font(.subheadline.weight(.bold))
-                            Text(variant.shortTitle)
-                                .font(.caption.weight(.semibold))
-                        }
-                        .foregroundStyle(selectedVariant == variant ? Color.black : Color.white)
-                        .frame(width: 82, height: 62)
-                        .background(
-                            selectedVariant == variant ? Color.orange : Color.white.opacity(0.08),
-                            in: RoundedRectangle(cornerRadius: 16)
-                        )
-                    }
-                    .buttonStyle(.plain)
-                }
+    private var postureGuide: some View {
+        HStack(spacing: 16) {
+            PlankVariantIcon(variant: .classic, isAnimated: true)
+                .frame(width: 72, height: 72)
+                .foregroundStyle(.orange)
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Position du jour")
+                    .font(.caption.weight(.bold))
+                    .tracking(1.4)
+                    .foregroundStyle(.white.opacity(0.62))
+                Text("Planche classique")
+                    .font(.headline.weight(.black))
+                    .foregroundStyle(.white)
+                Text("Avant-bras au sol, dos droit, corps gainé.")
+                    .font(.caption.weight(.medium))
+                    .foregroundStyle(.white.opacity(0.72))
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            .padding(.horizontal, 24)
+
+            Spacer(minLength: 0)
         }
+        .padding(16)
+        .frame(maxWidth: .infinity)
+        .background(.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 18))
+        .padding(.horizontal, 24)
     }
 
     // MARK: - Series card

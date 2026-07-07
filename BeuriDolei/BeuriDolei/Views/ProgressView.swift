@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ChallengeProgressView: View {
     @EnvironmentObject var store: ChallengeStore
-    @State private var selectedSession: PlankSession?
+    @State private var selectedDay: DaySelection?
 
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 12), count: 5)
 
@@ -19,8 +19,8 @@ struct ChallengeProgressView: View {
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
         .navigationTitle("Progression")
         .navigationBarTitleDisplayMode(.large)
-        .sheet(item: $selectedSession) { session in
-            SessionDetailSheet(session: session)
+        .sheet(item: $selectedDay) { selection in
+            DayDetailSheet(dayIndex: selection.dayIndex)
         }
     }
 
@@ -59,20 +59,18 @@ struct ChallengeProgressView: View {
             ForEach(0..<ChallengeDay.totalDays, id: \.self) { dayIndex in
                 DayCellView(dayIndex: dayIndex, state: cellState(for: dayIndex))
                     .onTapGesture {
-                        if let session = store.sessions.last(where: { $0.dayIndex == dayIndex && $0.isCompleted }) {
-                            selectedSession = session
-                        }
+                        selectedDay = DaySelection(dayIndex: dayIndex)
                     }
             }
         }
     }
 
     private func cellState(for dayIndex: Int) -> DayCellState {
-        let completedDays = Set(store.sessions.filter(\.isCompleted).map(\.dayIndex))
-        if completedDays.contains(dayIndex) { return .completed }
-        if dayIndex == store.currentDayIndex { return .current }
-        if dayIndex < store.currentDayIndex { return .skipped }
-        return .future
+        DayCellStateResolver.state(
+            for: dayIndex,
+            currentDayIndex: store.currentDayIndex,
+            completedDayIndexes: Set(store.sessions.filter(\.isCompleted).map(\.dayIndex))
+        )
     }
 
     // MARK: - Helper
@@ -86,8 +84,21 @@ struct ChallengeProgressView: View {
 
 // MARK: - Cell state
 
-enum DayCellState {
+enum DayCellState: Equatable {
     case completed, current, skipped, future
+}
+
+struct DayCellStateResolver {
+    static func state(
+        for dayIndex: Int,
+        currentDayIndex: Int,
+        completedDayIndexes: Set<Int>
+    ) -> DayCellState {
+        if completedDayIndexes.contains(dayIndex) { return .completed }
+        if dayIndex == currentDayIndex { return .current }
+        if dayIndex < currentDayIndex { return .skipped }
+        return .future
+    }
 }
 
 // MARK: - Day cell
@@ -143,43 +154,97 @@ struct DayCellView: View {
     }
 }
 
-// MARK: - Session detail sheet
+// MARK: - Day selection wrapper
 
-struct SessionDetailSheet: View {
-    let session: PlankSession
+struct DaySelection: Identifiable {
+    let dayIndex: Int
+    var id: Int { dayIndex }
+}
+
+// MARK: - Day detail sheet
+
+struct DayDetailSheet: View {
+    let dayIndex: Int
+    @EnvironmentObject var store: ChallengeStore
     @Environment(\.dismiss) private var dismiss
+    @State private var showInvalidateConfirmation = false
+
+    private var plannedDay: ChallengeDay { ChallengeDay.programme[dayIndex] }
+    private var session: PlankSession? {
+        store.sessions.last(where: { $0.dayIndex == dayIndex && $0.isCompleted })
+    }
+    private var isCompleted: Bool { session != nil }
+    private var isReachable: Bool { dayIndex <= store.currentDayIndex }
 
     var body: some View {
         NavigationStack {
             List {
-                Section("Jour \(session.dayIndex + 1)") {
-                    LabeledContent("Date", value: session.endedAt.formatted(date: .abbreviated, time: .shortened))
-                    LabeledContent("Variante", value: session.variant.title)
-                    LabeledContent("Durée séance", value: timeString(Int(session.duration)))
-                    LabeledContent("Temps total tenu", value: timeString(session.totalCompleted))
+                Section("Prévu") {
+                    LabeledContent("Exercice", value: "Planche classique")
+                    LabeledContent("Durée totale", value: timeString(plannedDay.totalDuration))
+                    ForEach(Array(plannedDay.series.enumerated()), id: \.offset) { index, target in
+                        LabeledContent("Série \(index + 1)", value: timeString(target))
+                    }
                 }
-                Section("Séries") {
-                    ForEach(Array(zip(session.seriesCompleted, session.targetSeries).enumerated()), id: \.offset) { index, pair in
-                        let (actual, target) = pair
-                        LabeledContent("Série \(index + 1)") {
-                            HStack(spacing: 4) {
-                                Text(timeString(actual))
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(actual >= target ? .green : .orange)
-                                Text("/ \(timeString(target))")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
+
+                if let session {
+                    Section("Réalisé") {
+                        LabeledContent("Date", value: session.endedAt.formatted(
+                            Date.FormatStyle(date: .abbreviated, time: .shortened)
+                                .locale(Locale(identifier: "fr_FR"))
+                        ))
+                        LabeledContent("Temps total tenu", value: timeString(session.totalCompleted))
+                        ForEach(Array(zip(session.seriesCompleted, session.targetSeries).enumerated()), id: \.offset) { index, pair in
+                            let (actual, target) = pair
+                            LabeledContent("Série \(index + 1)") {
+                                HStack(spacing: 4) {
+                                    Text(timeString(actual))
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(actual >= target ? .green : .orange)
+                                    Text("/ \(timeString(target))")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
                             }
                         }
                     }
                 }
+
+                Section {
+                    if isCompleted {
+                        Button("Invalider ce jour", role: .destructive) {
+                            showInvalidateConfirmation = true
+                        }
+                    } else if isReachable {
+                        Button("Valider ce jour") {
+                            store.validateDay(dayIndex)
+                            dismiss()
+                        }
+                    } else {
+                        Text("Jour à venir — pas encore accessible.")
+                            .foregroundStyle(.secondary)
+                    }
+                }
             }
-            .navigationTitle("Détails séance")
+            .navigationTitle("Jour \(dayIndex + 1)")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Fermer") { dismiss() }
                 }
+            }
+            .confirmationDialog(
+                "Invalider ce jour ?",
+                isPresented: $showInvalidateConfirmation,
+                titleVisibility: .visible
+            ) {
+                Button("Invalider", role: .destructive) {
+                    store.invalidateDay(dayIndex)
+                    dismiss()
+                }
+                Button("Annuler", role: .cancel) {}
+            } message: {
+                Text("La séance enregistrée pour le jour \(dayIndex + 1) sera supprimée et le streak sera recalculé.")
             }
         }
     }

@@ -5,9 +5,14 @@
 
 ## Build, Test, and Development Commands
 Open the project in Xcode with `open BeuriDolei/BeuriDolei.xcodeproj`.
-Build from the command line with `xcodebuild -project BeuriDolei/BeuriDolei.xcodeproj -scheme BeuriDolei -configuration Debug build`.
+Build from the command line with `xcodebuild -project BeuriDolei/BeuriDolei.xcodeproj -scheme BeuriDolei -configuration Debug -destination 'platform=iOS Simulator,name=iPhone 17' build`.
 List schemes and build settings with `xcodebuild -project BeuriDolei/BeuriDolei.xcodeproj -list`.
-There is no XCTest target in the repository yet, so `xcodebuild ... test` will only be useful after adding `BeuriDoleiTests` or `BeuriDoleiUITests`.
+Run unit tests with `xcodebuild test -project BeuriDolei/BeuriDolei.xcodeproj -scheme BeuriDolei -configuration Debug -destination 'platform=iOS Simulator,name=iPhone 17'`.
+
+## Feature Implementation Loop
+Use `docs/IMPLEMENTATION_LOOP.md` as the execution workflow for non-trivial feature work. Use `PRD.md` for product intent, `docs/FEATURE_BACKLOG.md` for feature status and acceptance criteria, and `docs/HANDOVER.md` for current session state between Human, Claude Code, and Codex.
+
+Before implementing a feature, confirm the active backlog item and record the slice in `docs/HANDOVER.md`. After implementation, update the handoff with changed files, verification commands, failures or skipped checks, decisions, and the next recommended action.
 
 ## Coding Style & Naming Conventions
 Use Swift 6 and SwiftUI conventions. Follow Xcode’s default formatting: 4-space indentation, one top-level type per file, and trailing commas only where Swift style makes diffs cleaner. Name views and app types in `UpperCamelCase` (`ContentView`), properties and methods in `lowerCamelCase`, and asset catalogs with descriptive names. Prefer small SwiftUI views and move stateful or persistence logic out of views into view models or services.

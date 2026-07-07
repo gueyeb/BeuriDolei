@@ -19,7 +19,7 @@ final class HealthKitManager {
             return
         }
 
-        store.requestAuthorization(toShare: [workoutType], read: [workoutType]) { granted, _ in
+        store.requestAuthorization(toShare: [workoutType, activeEnergyType], read: []) { granted, _ in
             DispatchQueue.main.async {
                 completion(granted)
             }
@@ -32,47 +32,15 @@ final class HealthKitManager {
             return
         }
 
-        hasExistingWorkout(for: session) { [weak self] exists in
-            guard let self else {
-                completion?(false)
-                return
-            }
-
-            if exists {
-                completion?(true)
-                return
-            }
-
-            let calories = self.estimatedCalories(duration: session.duration)
-            let energyBurned = calories.map {
-                HKQuantity(unit: .kilocalorie(), doubleValue: $0)
-            }
-            self.persistWorkout(
-                session: session,
-                energyBurned: energyBurned,
-                completion: completion
-            )
+        let calories = estimatedCalories(duration: session.duration)
+        let energyBurned = calories.map {
+            HKQuantity(unit: .kilocalorie(), doubleValue: $0)
         }
-    }
-
-    private func hasExistingWorkout(for session: PlankSession, completion: @escaping (Bool) -> Void) {
-        let predicate = HKQuery.predicateForObjects(
-            withMetadataKey: externalUUIDKey,
-            operatorType: .equalTo,
-            value: session.id.uuidString
+        persistWorkout(
+            session: session,
+            energyBurned: energyBurned,
+            completion: completion
         )
-        let query = HKSampleQuery(
-            sampleType: workoutType,
-            predicate: predicate,
-            limit: 1,
-            sortDescriptors: nil
-        ) { _, samples, _ in
-            DispatchQueue.main.async {
-                completion(!(samples?.isEmpty ?? true))
-            }
-        }
-
-        store.execute(query)
     }
 
     private func metadata(for session: PlankSession) -> [String: Any] {

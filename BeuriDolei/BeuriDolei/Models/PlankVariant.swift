@@ -37,13 +37,13 @@ enum PlankVariant: String, CaseIterable, Codable, Identifiable {
     var systemImage: String {
         switch self {
         case .classic:
-            return "figure.strengthtraining.traditional"
+            return "rectangle.compress.vertical"
         case .sideLeft:
-            return "arrowtriangle.left.fill"
+            return "arrow.left"
         case .sideRight:
-            return "arrowtriangle.right.fill"
+            return "arrow.right"
         case .straightArms:
-            return "figure.arms.open"
+            return "rectangle.expand.vertical"
         }
     }
 

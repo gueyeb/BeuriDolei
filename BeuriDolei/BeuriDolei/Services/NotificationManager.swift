@@ -1,6 +1,13 @@
 import UserNotifications
 
-final class NotificationManager {
+protocol NotificationScheduling {
+    func requestPermission(completion: ((Bool) -> Void)?)
+    func scheduleDailyReminder(at time: Date, dayIndex: Int)
+    func cancelDailyReminder()
+    func scheduleCongratsNotification(dayIndex: Int, streak: Int)
+}
+
+final class NotificationManager: NotificationScheduling {
     static let shared = NotificationManager()
     private init() {}
 

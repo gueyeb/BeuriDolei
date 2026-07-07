@@ -54,7 +54,7 @@ struct CompletionView: View {
                     .tracking(2)
                     .foregroundStyle(.yellow)
             } else {
-                Text("Jour \(session.dayIndex + 1) · \(session.variant.title)")
+                Text("Jour \(session.dayIndex + 1) · Planche classique")
                     .font(.subheadline.weight(.medium))
                     .foregroundStyle(.white.opacity(0.8))
             }

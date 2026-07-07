@@ -60,6 +60,10 @@ Permettre a un utilisateur iPhone de suivre un programme planche 30 jours, compl
 - rappel quotidien configurable
 - notification de félicitation après séance complète
 
+### 5. HealthKit
+- sync optionnelle de la séance complétée comme workout HealthKit
+- pas de lecture de données HealthKit, écriture seule
+
 ---
 
 ## Non-objectifs MVP
@@ -68,7 +72,6 @@ Permettre a un utilisateur iPhone de suivre un programme planche 30 jours, compl
 - social, leaderboard, partage public
 - coach vocal, vidéo, ou bibliothèque d'exercices
 - variantes de planche et programmes personnalisés
-- intégration HealthKit
 
 Ces éléments restent en V2+ pour protéger la vitesse d'exécution du MVP.
 
@@ -90,11 +93,13 @@ Ces éléments restent en V2+ pour protéger la vitesse d'exécution du MVP.
 ### Home
 - jour courant du challenge
 - durée cible du jour
+- guide visuel simple de la posture de planche classique
 - bouton principal `Commencer`
 - résumé streak et dernière séance
 
 ### Session / Timer
 - chrono en cours
+- rappel visuel de la posture pendant la séance
 - état `running`, `paused`, `completed`, `abandoned`
 - actions pause, reprendre, arrêter
 
@@ -163,9 +168,9 @@ Le repo actuel contient surtout le squelette SwiftUI. Les prochaines itérations
 - home, progression, réglages
 - streak + historique local
 - rappels quotidiens
+- HealthKit (sync workout, écriture seule)
 
 ### V2
-- HealthKit
 - variantes de planche
 - défis personnalisés
 - widget iOS

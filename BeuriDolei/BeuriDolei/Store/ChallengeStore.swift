@@ -15,8 +15,16 @@ final class ChallengeStore: ObservableObject {
         static let preferences = "bd_preferences"
     }
 
+    private let userDefaults: UserDefaults
+    private let notificationScheduler: any NotificationScheduling
+
     // MARK: - Init
-    init() {
+    init(
+        userDefaults: UserDefaults = .standard,
+        notificationScheduler: any NotificationScheduling = NotificationManager.shared
+    ) {
+        self.userDefaults = userDefaults
+        self.notificationScheduler = notificationScheduler
         load()
         recalculateStreak()
     }
@@ -37,7 +45,7 @@ final class ChallengeStore: ObservableObject {
     }
 
     var currentVariant: PlankVariant {
-        preferences.preferredVariant
+        .classic
     }
 
     var isTodayCompleted: Bool {
@@ -124,9 +132,9 @@ final class ChallengeStore: ObservableObject {
         recalculateStreak()
         save()
         if preferences.notificationsEnabled {
-            NotificationManager.shared.scheduleCongratsNotification(
+            notificationScheduler.scheduleCongratsNotification(
                 dayIndex: session.dayIndex, streak: streak)
-            NotificationManager.shared.scheduleDailyReminder(
+            notificationScheduler.scheduleDailyReminder(
                 at: preferences.reminderTime, dayIndex: reminderDayIndex)
         }
         if preferences.healthKitEnabled {
@@ -136,10 +144,10 @@ final class ChallengeStore: ObservableObject {
 
     func applyNotificationPreferences() {
         if preferences.notificationsEnabled {
-            NotificationManager.shared.scheduleDailyReminder(
+            notificationScheduler.scheduleDailyReminder(
                 at: preferences.reminderTime, dayIndex: reminderDayIndex)
         } else {
-            NotificationManager.shared.cancelDailyReminder()
+            notificationScheduler.cancelDailyReminder()
         }
     }
 
@@ -157,7 +165,7 @@ final class ChallengeStore: ObservableObject {
         preferences.hasRequestedNotificationsPermission = true
         save()
 
-        NotificationManager.shared.requestPermission { [weak self] granted in
+        notificationScheduler.requestPermission { [weak self] granted in
             guard let self else { return }
             if !granted {
                 self.preferences.notificationsEnabled = false
@@ -194,6 +202,34 @@ final class ChallengeStore: ObservableObject {
     func resetChallenge() {
         sessions = []
         streak = 0
+        save()
+    }
+
+    /// Marks a day as completed manually (e.g. correcting a session that failed to log).
+    /// Uses the day's full target series and today's date.
+    func validateDay(_ dayIndex: Int) {
+        guard ChallengeDay.programme.indices.contains(dayIndex) else { return }
+        guard !completedDayIndexes.contains(dayIndex) else { return }
+
+        let target = ChallengeDay.programme[dayIndex].series
+        let now = Date()
+        let session = PlankSession(
+            id: UUID(),
+            dayIndex: dayIndex,
+            variant: .classic,
+            startedAt: now,
+            endedAt: now,
+            seriesCompleted: target,
+            targetSeries: target
+        )
+        completeSession(session)
+    }
+
+    /// Removes a day's completed session(s), reverting it to not-completed.
+    func invalidateDay(_ dayIndex: Int) {
+        guard sessions.contains(where: { $0.dayIndex == dayIndex }) else { return }
+        sessions.removeAll { $0.dayIndex == dayIndex }
+        recalculateStreak()
         save()
     }
 
@@ -284,19 +320,19 @@ final class ChallengeStore: ObservableObject {
 
     private func save() {
         if let data = try? JSONEncoder().encode(sessions) {
-            UserDefaults.standard.set(data, forKey: Keys.sessions)
+            userDefaults.set(data, forKey: Keys.sessions)
         }
         if let data = try? JSONEncoder().encode(preferences) {
-            UserDefaults.standard.set(data, forKey: Keys.preferences)
+            userDefaults.set(data, forKey: Keys.preferences)
         }
     }
 
     private func load() {
-        if let data = UserDefaults.standard.data(forKey: Keys.sessions),
+        if let data = userDefaults.data(forKey: Keys.sessions),
            let decoded = try? JSONDecoder().decode([PlankSession].self, from: data) {
             sessions = decoded
         }
-        if let data = UserDefaults.standard.data(forKey: Keys.preferences),
+        if let data = userDefaults.data(forKey: Keys.preferences),
            let decoded = try? JSONDecoder().decode(UserPreferences.self, from: data) {
             preferences = decoded
         }
